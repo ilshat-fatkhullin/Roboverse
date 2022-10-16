@@ -1,0 +1,60 @@
+#pragma kernel CSMain
+
+Texture2D<float4> EquirectTexture;
+RWStructuredBuffer<float4> PointCloud;
+
+uint Width;
+uint Height;
+float NearClipPlane;
+float FarClipPlane;
+
+float3 Origin;
+
+static const float Pi = 3.14159265;
+
+float3x3 Euler3x3(float3 v)
+{
+    float sx, cx;
+    float sy, cy;
+    float sz, cz;
+
+    sincos(v.x, sx, cx);
+    sincos(v.y, sy, cy);
+    sincos(v.z, sz, cz);
+
+    float3 row1 = float3(sx*sy*sz + cy*cz, sx*sy*cz - cy*sz, cx*sy);
+    float3 row3 = float3(sx*cy*sz - sy*cz, sx*cy*cz + sy*sz, cx*cy);
+    float3 row2 = float3(cx*sz, cx*cz, -sx);
+
+    return float3x3(row1, row2, row3);
+}
+
+[numthreads(8, 8, 1)]
+void CSMain (uint3 id : SV_DispatchThreadID)
+{   
+    float4 pixel = EquirectTexture[id.xy];    
+    float distance = pixel.x;
+
+    if (distance == 0)
+    {
+        PointCloud[id.x * Height + id.y] = float4(0, 0, 0, 0);
+    }
+    else
+    {
+        distance = NearClipPlane + (FarClipPlane - NearClipPlane) * distance;
+
+        float3 direction = float3(0, 0, 1);
+
+        float3x3 rotation = Euler3x3(
+            float3(
+                -((float)id.y / Height - 0.5) * Pi,
+                ((float)id.x / Width) * 2 * Pi + Pi,
+                0));
+
+        direction = mul(rotation, direction);
+        direction = normalize(direction);
+
+        float3 position = direction * distance;
+        PointCloud[id.x * Height + id.y] = float4(position.x, position.y, position.z, 1);
+    }
+}
