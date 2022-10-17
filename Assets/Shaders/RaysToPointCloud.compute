@@ -1,0 +1,114 @@
+#pragma kernel CSMain
+
+uint FaceResolution;
+Texture2D<float4> RightFace, LeftFace, TopFace, BottomFace, ForwardFace, BackFace;
+StructuredBuffer<float3> Rays;
+RWStructuredBuffer<float4> PointCloud;
+
+float NearClipPlane;
+float FarClipPlane;
+
+float BoxRayIntersectSimple(float3 dir, float3 boxMin, float3 boxMax)
+{
+    float3 invDir = 1.0 / dir;
+
+    // Find the ray intersection with box plane
+    float3 rbmin = boxMin * invDir;
+    float3 rbmax = boxMax * invDir;
+
+    float3 rbminmax = (dir > 0.0) ? rbmax : rbmin;
+
+    return min(min(rbminmax.x, rbminmax.y), rbminmax.z);
+}
+
+bool IsFaceIntersection(float3 intersection)
+{
+    return  abs(intersection.x) <= 1 &&
+            abs(intersection.y) <= 1 && 
+            abs(intersection.z) <= 1;
+}
+
+[numthreads(32, 1, 1)]
+void CSMain (uint3 id : SV_DispatchThreadID)
+{   
+    float3 ray = Rays[id.x];    
+    
+    float3 i = ray * BoxRayIntersectSimple(normalize(ray), float3(-1, -1, -1), float3(1, 1, 1));
+    float2 coordinates;
+
+    uint face = -1;
+    
+    if (i.x > 0.999)
+    {
+        face = 0;
+        coordinates = float2(-i.z, i.y);
+    }
+    else if (i.x < -0.999)
+    {
+        face = 1;
+        coordinates = float2(i.z, i.y);
+    }
+    else if (i.y > 0.999)
+    {                
+        face = 2;
+        coordinates = float2(-i.x, i.z);
+    }
+    else if (i.y < -0.999)
+    {                    
+        face = 3;
+        coordinates = float2(i.x, i.z);
+    }
+    else if (i.z > 0.999)
+    {                        
+        face = 4;
+        coordinates = float2(i.x, i.y);
+    }
+    else if (i.z < -0.999)
+    {                            
+        face = 5;
+        coordinates = float2(-i.x, i.y);
+    }
+
+    coordinates += 1;
+    coordinates /= 2;
+    coordinates *= FaceResolution;
+
+    uint2 uintCoordinates = floor(coordinates);
+    float distance = 1;
+
+    if (face == 0)
+    {
+        distance = RightFace[uintCoordinates].x;
+    }
+    else if (face == 1)
+    {
+        distance = LeftFace[uintCoordinates].x;
+    }
+    else if (face == 2)
+    {
+        distance = TopFace[uintCoordinates].x;
+    }
+    else if (face == 3)
+    {
+        distance = BottomFace[uintCoordinates].x;
+    }
+    else if (face == 4)
+    {
+        distance = ForwardFace[uintCoordinates].x;
+    }
+    else if (face == 5)
+    {
+        distance = BackFace[uintCoordinates].x;
+    }
+
+    if (distance > 0.999)
+    {
+        PointCloud[id.x] = float4(0, 0, 0, 0);
+        return;
+    }
+
+    distance = (FarClipPlane - NearClipPlane) * distance;
+
+    float3 position = i * distance;
+    PointCloud[id.x] = float4(position, 1);
+}

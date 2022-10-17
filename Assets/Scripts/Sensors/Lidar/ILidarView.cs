@@ -6,11 +6,13 @@ namespace Assets.Scripts.Sensors.Lidar
     {
         public UnityEngine.Camera Camera { get; }
 
-        public int Width { get; }
+        public int Resolution { get; }
 
-        public int Height { get; }
+        public int Measurements { get; }
 
-        public UnityEngine.Vector2 FieldOfView { get; }
+        public int RaysCount { get; }
+
+        public float VerticalAngle { get; }
 
         public VisualEffect VisualEffect { get; }
     }

@@ -11,9 +11,16 @@
         public Lidar(ILidarView view, LidarSettings settings)
         {
             _view = view;
-            _view.Camera.aspect = _view.FieldOfView.x / _view.FieldOfView.y;
+            _view.Camera.aspect = 1;
 
-            _messageBuilder = new(_view.Camera, _view.Width, _view.Height, settings.Shader, view.VisualEffect);
+            _messageBuilder = new(
+                _view.Camera, 
+                _view.Resolution, 
+                _view.Measurements,
+                _view.RaysCount,
+                _view.VerticalAngle, 
+                settings.Shader, 
+                view.VisualEffect);
         }        
 
         public void Dispose()

@@ -36,7 +36,7 @@ namespace Assets.Scripts.Sensors
             SensorList.AddRange(GroundTruth3DList);
             SensorList.AddRange(LidarList);
 
-            callbacks.FixedUpdateOccured += Callbacks_FixedUpdateOccured;
+            callbacks.UpdateOccured += Callbacks_FixedUpdateOccured;
         }        
 
         public void Dispose()

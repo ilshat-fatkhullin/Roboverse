@@ -11,13 +11,15 @@ namespace Assets.Scripts.Sensors.Lidar
 
         public UnityEngine.Camera Camera => _camera;
 
-        public int Width => _width;
-
-        public int Height => _height;
-
-        public Vector2 FieldOfView => _fieldOfView;
-
         public VisualEffect VisualEffect => _visualEffect;
+
+        public int Resolution => _resolution;
+
+        public int Measurements => _measurements;
+
+        public int RaysCount => _raysCount;
+
+        public float VerticalAngle => _verticalAngle;
 
         [SerializeField]
         private UnityEngine.Camera _camera;
@@ -26,13 +28,16 @@ namespace Assets.Scripts.Sensors.Lidar
         private string _topic;
 
         [SerializeField]
-        private int _width;
+        private int _resolution;
 
         [SerializeField]
-        private int _height;
+        private int _measurements;
 
         [SerializeField]
-        private Vector2 _fieldOfView;
+        private int _raysCount;
+
+        [SerializeField]
+        private float _verticalAngle;
 
         [SerializeField]
         private VisualEffect _visualEffect;
