@@ -1,0 +1,18 @@
+{
+    "name": "Roboverse.Agent",
+    "rootNamespace": "",
+    "references": [
+        "GUID:d4fba3cda7b83f8489b04f8e0e9939d3",
+        "GUID:454a799f8e8ec6f43bddcdc23cd71b49",
+        "GUID:3a6e25dd7782dba40be2ec2765747c70"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
