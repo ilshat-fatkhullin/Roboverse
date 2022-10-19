@@ -360,7 +360,7 @@ PrefabInstance:
     - target: {fileID: 842086869758694365, guid: 0116fdaecec07574492e234c2a44b66c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 2.68
       objectReference: {fileID: 0}
     - target: {fileID: 842086869758694365, guid: 0116fdaecec07574492e234c2a44b66c,
         type: 3}
@@ -370,7 +370,7 @@ PrefabInstance:
     - target: {fileID: 842086869758694365, guid: 0116fdaecec07574492e234c2a44b66c,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -1.8
       objectReference: {fileID: 0}
     - target: {fileID: 842086869758694365, guid: 0116fdaecec07574492e234c2a44b66c,
         type: 3}
@@ -406,6 +406,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7491353003196767241, guid: 0116fdaecec07574492e234c2a44b66c,
+        type: 3}
+      propertyPath: _isGeneratingDataset
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8814612108519469068, guid: 0116fdaecec07574492e234c2a44b66c,
+        type: 3}
+      propertyPath: _isGeneratingDataset
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0116fdaecec07574492e234c2a44b66c, type: 3}
@@ -1253,7 +1263,10 @@ MonoBehaviour:
   _agentSettings:
     SensorsSettings:
       LidarSettings:
-        Shader: {fileID: 7200000, guid: 40868ac717097654d8045cbb5d66bd99, type: 3}
+        RaysToPointCloudConverterShader: {fileID: 7200000, guid: 40868ac717097654d8045cbb5d66bd99,
+          type: 3}
+        PointCloudToDepthTextureConverterShader: {fileID: 7200000, guid: 250856d5667e1cc4e8c7194b9ed47be6,
+          type: 3}
   _bridgeSettings:
     RosSettings:
       IpAddress: 127.0.0.1

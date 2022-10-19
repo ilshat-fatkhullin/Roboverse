@@ -8,7 +8,12 @@ namespace Assets.Scripts.Sensors.GroundTruth3D
 
         public string Topic => _topic;
 
+        public bool IsGeneratingDataset => _isGeneratingDataset;
+
         [SerializeField]
         private string _topic;
+
+        [SerializeField]
+        private bool _isGeneratingDataset;
     }
 }

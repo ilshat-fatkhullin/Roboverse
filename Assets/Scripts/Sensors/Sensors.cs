@@ -28,7 +28,7 @@ namespace Assets.Scripts.Sensors
             CameraList = view.CameraViews.Select(v => new Camera.Camera(v, bridge)).ToList();
             GroundTruth2DList = view.GroundTruth2DViews.Select(v => new GroundTruth2D.GroundTruth2D(v)).ToList();
             GroundTruth3DList = view.GroundTruth3DViews.Select(v => new GroundTruth3D.GroundTruth3D(v)).ToList();
-            LidarList = view.LidarViews.Select(v => new Lidar.Lidar(v, settings.LidarSettings)).ToList();
+            LidarList = view.LidarViews.Select(v => new Lidar.Lidar(v, bridge, settings.LidarSettings)).ToList();
 
             SensorList = new List<ISensor>();
             SensorList.AddRange(CameraList);

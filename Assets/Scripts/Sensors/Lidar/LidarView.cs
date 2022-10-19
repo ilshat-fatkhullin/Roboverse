@@ -21,6 +21,8 @@ namespace Assets.Scripts.Sensors.Lidar
 
         public float VerticalAngle => _verticalAngle;
 
+        public bool IsGeneratingDataset => _isGeneratingDataset;
+
         [SerializeField]
         private UnityEngine.Camera _camera;
 
@@ -38,6 +40,9 @@ namespace Assets.Scripts.Sensors.Lidar
 
         [SerializeField]
         private float _verticalAngle;
+
+        [SerializeField]
+        private bool _isGeneratingDataset;
 
         [SerializeField]
         private VisualEffect _visualEffect;

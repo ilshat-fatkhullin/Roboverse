@@ -187,6 +187,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _topic: /gt3ds/main_gt3d
+  _isGeneratingDataset: 0
 --- !u!1 &842086868329129525
 GameObject:
   m_ObjectHideFlags: 0
@@ -239,7 +240,8 @@ MonoBehaviour:
   _resolution: 512
   _measurements: 1000
   _raysCount: 32
-  _verticalAngle: 30
+  _verticalAngle: 40
+  _isGeneratingDataset: 0
   _visualEffect: {fileID: 658802864}
 --- !u!20 &1803486520
 Camera:
@@ -454,6 +456,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _topic: /gt2ds/main_gt2d
+  _isGeneratingDataset: 0
 --- !u!1 &842086868730775400
 GameObject:
   m_ObjectHideFlags: 0
@@ -502,6 +505,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _camera: {fileID: 7913723907208249799}
   _topic: /cameras/main_camera
+  _isGeneratingDataset: 0
+  _width: 1024
+  _height: 1024
 --- !u!20 &7913723907208249799
 Camera:
   m_ObjectHideFlags: 0
@@ -562,7 +568,7 @@ MonoBehaviour:
   clearDepth: 1
   volumeLayerMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 1
   volumeAnchorOverride: {fileID: 0}
   antialiasing: 0
   SMAAQuality: 2

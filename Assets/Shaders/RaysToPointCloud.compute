@@ -5,8 +5,7 @@ Texture2D<float4> RightFace, LeftFace, TopFace, BottomFace, ForwardFace, BackFac
 StructuredBuffer<float3> Rays;
 RWStructuredBuffer<float4> PointCloud;
 
-float NearClipPlane;
-float FarClipPlane;
+float MaxDistance;
 
 float BoxRayIntersectSimple(float3 dir, float3 boxMin, float3 boxMax)
 {
@@ -21,19 +20,12 @@ float BoxRayIntersectSimple(float3 dir, float3 boxMin, float3 boxMax)
     return min(min(rbminmax.x, rbminmax.y), rbminmax.z);
 }
 
-bool IsFaceIntersection(float3 intersection)
-{
-    return  abs(intersection.x) <= 1 &&
-            abs(intersection.y) <= 1 && 
-            abs(intersection.z) <= 1;
-}
-
 [numthreads(32, 1, 1)]
 void CSMain (uint3 id : SV_DispatchThreadID)
 {   
     float3 ray = Rays[id.x];    
     
-    float3 i = ray * BoxRayIntersectSimple(normalize(ray), float3(-1, -1, -1), float3(1, 1, 1));
+    float3 i = ray * BoxRayIntersectSimple(ray, float3(-1, -1, -1), float3(1, 1, 1));
     float2 coordinates;
 
     uint face = -1;
@@ -107,7 +99,7 @@ void CSMain (uint3 id : SV_DispatchThreadID)
         return;
     }
 
-    distance = (FarClipPlane - NearClipPlane) * distance;
+    distance = MaxDistance * distance;
 
     float3 position = i * distance;
     PointCloud[id.x] = float4(position, 1);

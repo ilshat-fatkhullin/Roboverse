@@ -6,6 +6,8 @@ namespace Assets.Scripts.Sensors.Lidar
     [Serializable]
     public sealed class LidarSettings
     {
-        public ComputeShader Shader;
+        public ComputeShader RaysToPointCloudConverterShader;
+
+        public ComputeShader PointCloudToDepthTextureConverterShader;
     }
 }
