@@ -3,13 +3,13 @@
 StructuredBuffer<float4> PointCloud;
 RWTexture2D<float> DepthTexture;
 
-uint RaysCount;
+uint Measurements;
 float MaxDistance;
 
 [numthreads(8,8,1)]
 void CSMain (uint3 id : SV_DispatchThreadID)
 {
-    float4 p = PointCloud[id.x * RaysCount + id.y];
+    float4 p = PointCloud[id.y * Measurements + id.x];
     p.w = 0;
     DepthTexture[id.xy] = length(p) / MaxDistance;
 }

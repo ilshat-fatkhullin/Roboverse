@@ -1,8 +1,10 @@
 #pragma kernel CSMain
 
-uint FaceResolution;
-Texture2D<float4> RightFace, LeftFace, TopFace, BottomFace, ForwardFace, BackFace;
+uint Resolution;
+
+Texture2D<float> Panorama;
 StructuredBuffer<float3> Rays;
+StructuredBuffer<float2> Angles;
 RWStructuredBuffer<float4> PointCloud;
 
 float MaxDistance;
@@ -10,8 +12,7 @@ float MaxDistance;
 float BoxRayIntersectSimple(float3 dir, float3 boxMin, float3 boxMax)
 {
     float3 invDir = 1.0 / dir;
-
-    // Find the ray intersection with box plane
+    
     float3 rbmin = boxMin * invDir;
     float3 rbmax = boxMax * invDir;
 
@@ -23,75 +24,17 @@ float BoxRayIntersectSimple(float3 dir, float3 boxMin, float3 boxMax)
 [numthreads(32, 1, 1)]
 void CSMain (uint3 id : SV_DispatchThreadID)
 {   
-    float3 ray = Rays[id.x];    
+    float3 ray = Rays[id.x]; 
+    float2 angles = Angles[id.x];
+
+    uint x = floor(angles.x * Resolution * 2);
+    uint y = floor(angles.y * Resolution);
+
+    uint2 coordinates = uint2(x, y);
     
-    float3 i = ray * BoxRayIntersectSimple(ray, float3(-1, -1, -1), float3(1, 1, 1));
-    float2 coordinates;
+    ray *= BoxRayIntersectSimple(ray, float3(-1, -1, -1), float3(1, 1, 1));    
 
-    uint face = -1;
-    
-    if (i.x > 0.999)
-    {
-        face = 0;
-        coordinates = float2(-i.z, i.y);
-    }
-    else if (i.x < -0.999)
-    {
-        face = 1;
-        coordinates = float2(i.z, i.y);
-    }
-    else if (i.y > 0.999)
-    {                
-        face = 2;
-        coordinates = float2(-i.x, i.z);
-    }
-    else if (i.y < -0.999)
-    {                    
-        face = 3;
-        coordinates = float2(i.x, i.z);
-    }
-    else if (i.z > 0.999)
-    {                        
-        face = 4;
-        coordinates = float2(i.x, i.y);
-    }
-    else if (i.z < -0.999)
-    {                            
-        face = 5;
-        coordinates = float2(-i.x, i.y);
-    }
-
-    coordinates += 1;
-    coordinates /= 2;
-    coordinates *= FaceResolution;
-
-    uint2 uintCoordinates = floor(coordinates);
-    float distance = 1;
-
-    if (face == 0)
-    {
-        distance = RightFace[uintCoordinates].x;
-    }
-    else if (face == 1)
-    {
-        distance = LeftFace[uintCoordinates].x;
-    }
-    else if (face == 2)
-    {
-        distance = TopFace[uintCoordinates].x;
-    }
-    else if (face == 3)
-    {
-        distance = BottomFace[uintCoordinates].x;
-    }
-    else if (face == 4)
-    {
-        distance = ForwardFace[uintCoordinates].x;
-    }
-    else if (face == 5)
-    {
-        distance = BackFace[uintCoordinates].x;
-    }
+    float distance = Panorama[coordinates.xy].x;
 
     if (distance > 0.999)
     {
@@ -99,8 +42,8 @@ void CSMain (uint3 id : SV_DispatchThreadID)
         return;
     }
 
-    distance = MaxDistance * distance;
+    distance *= MaxDistance;
 
-    float3 position = i * distance;
+    float3 position = ray * distance;
     PointCloud[id.x] = float4(position, 1);
 }

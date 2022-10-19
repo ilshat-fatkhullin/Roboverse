@@ -237,7 +237,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _camera: {fileID: 1803486520}
   _topic: /lidars/main_lidar
-  _resolution: 512
+  _resolution: 1024
   _measurements: 1000
   _raysCount: 32
   _verticalAngle: 40

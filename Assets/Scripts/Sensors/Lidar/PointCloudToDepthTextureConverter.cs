@@ -30,7 +30,7 @@ namespace Assets.Scripts.Sensors.Lidar
             _shader.SetBuffer(_kernelIndex, "PointCloud", pointCloudBuffer);
             _shader.SetTexture(_kernelIndex, "DepthTexture", _depthTexture);
 
-            _shader.SetInt("RaysCount", raysCount);
+            _shader.SetInt("Measurements", measurements);
             _shader.SetFloat("MaxDistance", maxDistance);
         }
 

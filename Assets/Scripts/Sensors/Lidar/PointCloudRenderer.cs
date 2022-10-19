@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering;
 using UnityEngine.VFX;
 
 namespace Assets.Scripts.Sensors.Lidar
@@ -20,7 +21,9 @@ namespace Assets.Scripts.Sensors.Lidar
 
         private readonly VisualEffect _effect;
 
-        public readonly Faces _faces;
+        private readonly RenderTexture _cubemap;
+
+        private readonly RenderTexture _panorama;
 
         private readonly RaysToPointCloudConverter _raysToPointCloudConverter;
 
@@ -39,22 +42,21 @@ namespace Assets.Scripts.Sensors.Lidar
             _raysCount = raysCount;
             _verticalAngle = verticalAngle;
             _effect = effect;
+            _cubemap = new RenderTexture(resolution, resolution, 24, RenderTextureFormat.RFloat)
+            {
+                dimension = UnityEngine.Rendering.TextureDimension.Cube
+            };
+            _panorama = new RenderTexture(resolution * 2, resolution, 24, RenderTextureFormat.RFloat);
 
-            _faces = new(_resolution);
+            (Vector3[] rays, Vector2[] coordinates) = CreateRaysAndAngles();
 
-            Vector3[] rays = CreateRays();
-
-            _raysToPointCloudConverter = new(shader, _faces, rays, _camera.farClipPlane);
+            _raysToPointCloudConverter = new(shader, _panorama, rays, coordinates, _camera.farClipPlane);
         }
 
         public (Vector4[], GraphicsBuffer buffer) Render()
         {
-            RenderFace(_faces.Right, Vector3.right, Vector3.up);
-            RenderFace(_faces.Left, Vector3.left, Vector3.up);
-            RenderFace(_faces.Top, Vector3.up, Vector3.forward);
-            RenderFace(_faces.Bottom, Vector3.down, Vector3.forward);
-            RenderFace(_faces.Forward, Vector3.forward, Vector3.up);
-            RenderFace(_faces.Back, Vector3.back, Vector3.up);
+            _camera.RenderToCubemap(_cubemap, 63, UnityEngine.Camera.MonoOrStereoscopicEye.Left);
+            _cubemap.ConvertToEquirect(_panorama, UnityEngine.Camera.MonoOrStereoscopicEye.Mono);
 
             GraphicsBuffer pointCloudBuffer = _raysToPointCloudConverter.Convert();
             ReinitEffect(pointCloudBuffer);
@@ -67,7 +69,6 @@ namespace Assets.Scripts.Sensors.Lidar
 
         public void Dispose()
         {
-            _faces.Dispose();
             _raysToPointCloudConverter.Dispose();
         }
 
@@ -77,32 +78,36 @@ namespace Assets.Scripts.Sensors.Lidar
             _effect.SetGraphicsBuffer("PositionsBuffer", pointCloudBuffer);
         }
 
-        private void RenderFace(RenderTexture face, Vector3 forward, Vector3 upward)
+        private (Vector3[] rays, Vector2[] angles) CreateRaysAndAngles()
         {
-            _camera.targetTexture = face;
-            _camera.transform.localRotation = Quaternion.LookRotation(forward, upward);
-            _camera.Render();
-            _camera.transform.localRotation = Quaternion.identity;
-        }
+            int length = _measurements * _raysCount;
 
-        private Vector3[] CreateRays()
-        {
-            Vector3[] rays = new Vector3[_measurements * _raysCount];
+            Vector3[] rays = new Vector3[length];
+            Vector2[] coordinates = new Vector2[length];
 
             for (int x = 0; x < _measurements; x++)
                 for (int y = 0; y < _raysCount; y++)
                 {
+                    float eulerX = y * _verticalAngle / _raysCount - _verticalAngle / 2;
+                    float eulerY = x * 360f / _measurements + 180f;
+
                     Quaternion rotation = Quaternion.Euler(
-                        y * _verticalAngle / _raysCount - _verticalAngle / 2,
-                        x * 360f / _measurements,
+                        -eulerX,
+                        eulerY,
                         0);
 
                     Vector3 ray = rotation * Vector3.forward;
 
-                    rays[x * _raysCount + y] = ray;
+                    int index = y * _measurements + x;
+
+                    eulerX += 90;
+                    eulerX /= 180f;
+
+                    rays[index] = ray;
+                    coordinates[index] = new Vector2((float)x / _measurements, (float)eulerX);
                 }
 
-            return rays;
+            return (rays, coordinates);
         }
     }
 }
