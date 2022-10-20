@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.Experimental.Rendering;
 using UnityEngine.VFX;
 
 namespace Assets.Scripts.Sensors.Lidar
@@ -10,8 +9,6 @@ namespace Assets.Scripts.Sensors.Lidar
         public GraphicsBuffer PointCloudBuffer => _raysToPointCloudConverter.PointCloudBuffer;
 
         private readonly UnityEngine.Camera _camera;
-
-        private readonly int _resolution;
 
         private readonly int _measurements;
 
@@ -37,7 +34,6 @@ namespace Assets.Scripts.Sensors.Lidar
             VisualEffect effect)
         {
             _camera = camera;
-            _resolution = resolution;
             _measurements = measurements;
             _raysCount = raysCount;
             _verticalAngle = verticalAngle;
@@ -55,7 +51,7 @@ namespace Assets.Scripts.Sensors.Lidar
 
         public (Vector4[], GraphicsBuffer buffer) Render()
         {
-            _camera.RenderToCubemap(_cubemap, 63, UnityEngine.Camera.MonoOrStereoscopicEye.Left);
+            _camera.RenderToCubemap(_cubemap, 51, UnityEngine.Camera.MonoOrStereoscopicEye.Left);
             _cubemap.ConvertToEquirect(_panorama, UnityEngine.Camera.MonoOrStereoscopicEye.Mono);
 
             GraphicsBuffer pointCloudBuffer = _raysToPointCloudConverter.Convert();
