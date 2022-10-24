@@ -28,8 +28,7 @@ namespace Assets.Scripts.Sensors.Lidar
             _view.Camera.aspect = 1;
 
             _renderer = new PointCloudRenderer(
-                _view.Camera, 
-                _view.Resolution, 
+                _view.Camera,
                 _view.Measurements,
                 _view.RaysCount,
                 _view.VerticalAngle, 

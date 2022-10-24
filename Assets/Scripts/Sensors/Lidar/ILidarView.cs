@@ -6,8 +6,6 @@ namespace Assets.Scripts.Sensors.Lidar
     {
         public UnityEngine.Camera Camera { get; }
 
-        public int Resolution { get; }
-
         public int Measurements { get; }
 
         public int RaysCount { get; }

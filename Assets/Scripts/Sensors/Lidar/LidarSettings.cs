@@ -1,12 +1,13 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering;
 
 namespace Assets.Scripts.Sensors.Lidar
 {
     [Serializable]
     public sealed class LidarSettings
     {
-        public ComputeShader RaysToPointCloudConverterShader;
+        public RayTracingShader RaysToPointCloudConverterShader;
 
         public ComputeShader PointCloudToDepthTextureConverterShader;
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering;
 using UnityEngine.VFX;
 
 namespace Assets.Scripts.Sensors.Lidar
@@ -18,19 +19,14 @@ namespace Assets.Scripts.Sensors.Lidar
 
         private readonly VisualEffect _effect;
 
-        private readonly RenderTexture _cubemap;
-
-        private readonly RenderTexture _panorama;
-
         private readonly RaysToPointCloudConverter _raysToPointCloudConverter;
 
         public PointCloudRenderer(
             UnityEngine.Camera camera,
-            int resolution,
             int measurements,
             int raysCount,
             float verticalAngle,
-            ComputeShader shader,
+            RayTracingShader shader,
             VisualEffect effect)
         {
             _camera = camera;
@@ -38,22 +34,14 @@ namespace Assets.Scripts.Sensors.Lidar
             _raysCount = raysCount;
             _verticalAngle = verticalAngle;
             _effect = effect;
-            _cubemap = new RenderTexture(resolution, resolution, 24, RenderTextureFormat.RFloat)
-            {
-                dimension = UnityEngine.Rendering.TextureDimension.Cube
-            };
-            _panorama = new RenderTexture(resolution * 2, resolution, 24, RenderTextureFormat.RFloat);
 
-            (Vector3[] rays, Vector2[] coordinates) = CreateRaysAndAngles();
+            Vector3[] rays = CreateRays();
 
-            _raysToPointCloudConverter = new(shader, _panorama, rays, coordinates, _camera.farClipPlane);
+            _raysToPointCloudConverter = new(_camera, shader, rays);
         }
 
         public (Vector4[], GraphicsBuffer buffer) Render()
         {
-            _camera.RenderToCubemap(_cubemap, 51, UnityEngine.Camera.MonoOrStereoscopicEye.Left);
-            _cubemap.ConvertToEquirect(_panorama, UnityEngine.Camera.MonoOrStereoscopicEye.Mono);
-
             GraphicsBuffer pointCloudBuffer = _raysToPointCloudConverter.Convert();
             ReinitEffect(pointCloudBuffer);
 
@@ -74,12 +62,11 @@ namespace Assets.Scripts.Sensors.Lidar
             _effect.SetGraphicsBuffer("PositionsBuffer", pointCloudBuffer);
         }
 
-        private (Vector3[] rays, Vector2[] angles) CreateRaysAndAngles()
+        private Vector3[] CreateRays()
         {
             int length = _measurements * _raysCount;
 
             Vector3[] rays = new Vector3[length];
-            Vector2[] coordinates = new Vector2[length];
 
             for (int x = 0; x < _measurements; x++)
                 for (int y = 0; y < _raysCount; y++)
@@ -94,16 +81,10 @@ namespace Assets.Scripts.Sensors.Lidar
 
                     Vector3 ray = rotation * Vector3.forward;
 
-                    int index = y * _measurements + x;
-
-                    eulerX += 90;
-                    eulerX /= 180f;
-
-                    rays[index] = ray;
-                    coordinates[index] = new Vector2((float)x / _measurements, (float)eulerX);
+                    rays[y * _measurements + x] = ray;
                 }
 
-            return (rays, coordinates);
+            return rays;
         }
     }
 }

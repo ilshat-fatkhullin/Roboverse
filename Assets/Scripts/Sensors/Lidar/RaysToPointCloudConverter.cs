@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering;
 
 namespace Assets.Scripts.Sensors.Lidar
 {
@@ -7,52 +8,65 @@ namespace Assets.Scripts.Sensors.Lidar
     {
         public readonly GraphicsBuffer PointCloudBuffer;
 
-        private readonly GraphicsBuffer _raysBuffer;
+        private readonly UnityEngine.Camera _camera;
 
-        private readonly GraphicsBuffer _coordinatesBuffer;
+        private readonly GraphicsBuffer _raysBuffer;        
 
-        private readonly ComputeShader _shader;
+        private readonly RayTracingShader _shader;
 
-        private readonly int _kernelIndex;
+        private RayTracingAccelerationStructure _accelerationStructure;
 
         public RaysToPointCloudConverter(
-            ComputeShader shader,
-            RenderTexture panorama,
-            Vector3[] rays,
-            Vector2[] coordinates,
-            float maxDistance)
+            UnityEngine.Camera camera,
+            RayTracingShader shader,
+            Vector3[] rays)
         {
+            _camera = camera;
             _shader = UnityEngine.Object.Instantiate(shader);
 
             _raysBuffer = new(GraphicsBuffer.Target.Structured, rays.Length, 12);
             _raysBuffer.SetData(rays);
 
-            _coordinatesBuffer = new(GraphicsBuffer.Target.Structured, rays.Length, 8);
-            _coordinatesBuffer.SetData(coordinates);
+            PointCloudBuffer = new(GraphicsBuffer.Target.Structured, rays.Length, 16);
 
-            PointCloudBuffer = new(GraphicsBuffer.Target.Structured, rays.Length, 16);         
+            InitializeAccelerationStructure();
 
-            _kernelIndex = _shader.FindKernel("CSMain");
-
-            _shader.SetInt("Resolution", panorama.height);
-            _shader.SetTexture(_kernelIndex, "Panorama", panorama);
-            _shader.SetBuffer(_kernelIndex, "Rays", _raysBuffer);
-            _shader.SetBuffer(_kernelIndex, "Angles", _coordinatesBuffer);
-            _shader.SetBuffer(_kernelIndex, "PointCloud", PointCloudBuffer);
-            _shader.SetFloat("MaxDistance", maxDistance);
+            _shader.SetAccelerationStructure("SceneAccelerationStructure", _accelerationStructure);
+            _shader.SetBuffer("Rays", _raysBuffer);
+            _shader.SetFloat("MaxDistance", _camera.farClipPlane);
+            _shader.SetBuffer("PointCloud", PointCloudBuffer);
+            _shader.SetShaderPass("Default");
         }
 
         public void Dispose()
         {
             PointCloudBuffer.Release();
             _raysBuffer.Release();
-            _coordinatesBuffer.Release();
+            _accelerationStructure.Dispose();
         }
 
         public GraphicsBuffer Convert()
         {
-            _shader.Dispatch(_kernelIndex, PointCloudBuffer.count / 32, 1, 1);
+            _shader.Dispatch("GenerateLidarRays", PointCloudBuffer.count, 1, 1, _camera);
             return PointCloudBuffer;
+        }
+
+        private void InitializeAccelerationStructure()
+        {
+            RayTracingAccelerationStructure.RASSettings settings = new RayTracingAccelerationStructure.RASSettings
+            {
+                layerMask = LayerMask.GetMask("Default"),
+                managementMode = RayTracingAccelerationStructure.ManagementMode.Automatic,
+                rayTracingModeMask = RayTracingAccelerationStructure.RayTracingModeMask.Everything
+            };
+
+            _accelerationStructure = new RayTracingAccelerationStructure(settings);
+
+            Renderer[] renderers = UnityEngine.Object.FindObjectsOfType<Renderer>();
+            foreach (Renderer r in renderers)
+                _accelerationStructure.AddInstance(r);
+
+            _accelerationStructure.Build();
         }
     }
 }

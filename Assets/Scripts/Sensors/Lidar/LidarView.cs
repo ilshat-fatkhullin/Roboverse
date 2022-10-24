@@ -13,8 +13,6 @@ namespace Assets.Scripts.Sensors.Lidar
 
         public VisualEffect VisualEffect => _visualEffect;
 
-        public int Resolution => _resolution;
-
         public int Measurements => _measurements;
 
         public int RaysCount => _raysCount;
@@ -28,9 +26,6 @@ namespace Assets.Scripts.Sensors.Lidar
 
         [SerializeField]
         private string _topic;
-
-        [SerializeField]
-        private int _resolution;
 
         [SerializeField]
         private int _measurements;
