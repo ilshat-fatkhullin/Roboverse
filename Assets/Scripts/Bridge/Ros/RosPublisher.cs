@@ -1,7 +1,6 @@
 ﻿using System;
 using Unity.Robotics.ROSTCPConnector;
 using Unity.Robotics.ROSTCPConnector.MessageGeneration;
-using UnityEditor.MemoryProfiler;
 
 namespace Assets.Scripts.Bridge.Ros
 {
