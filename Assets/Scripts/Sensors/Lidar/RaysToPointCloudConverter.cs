@@ -35,7 +35,7 @@ namespace Assets.Scripts.Sensors.Lidar
             _shader.SetBuffer("Rays", _raysBuffer);
             _shader.SetFloat("MaxDistance", _camera.farClipPlane);
             _shader.SetBuffer("PointCloud", PointCloudBuffer);
-            _shader.SetShaderPass("Default");
+            _shader.SetShaderPass("PointCloud");
         }
 
         public void Dispose()
