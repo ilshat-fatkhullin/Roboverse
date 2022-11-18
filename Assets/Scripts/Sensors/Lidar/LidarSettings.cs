@@ -4,8 +4,8 @@ using UnityEngine.Experimental.Rendering;
 
 namespace Assets.Scripts.Sensors.Lidar
 {
-    [Serializable]
-    public sealed class LidarSettings
+    [CreateAssetMenu(fileName = "LidarSettings", menuName = "Settings/Sensors/Lidar", order = 1)]
+    public sealed class LidarSettings : ScriptableObject
     {
         public RayTracingShader RaysToPointCloudConverterShader;
 

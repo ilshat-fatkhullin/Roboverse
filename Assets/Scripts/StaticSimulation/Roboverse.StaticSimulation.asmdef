@@ -1,0 +1,17 @@
+{
+    "name": "Roboverse.StaticSimulation",
+    "rootNamespace": "",
+    "references": [
+        "GUID:d4fba3cda7b83f8489b04f8e0e9939d3",
+        "GUID:75469ad4d38634e559750d17036d5f7c"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

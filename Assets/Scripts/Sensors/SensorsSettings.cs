@@ -1,11 +1,11 @@
 ﻿using Assets.Scripts.Sensors.Camera;
 using Assets.Scripts.Sensors.Lidar;
-using System;
+using UnityEngine;
 
 namespace Assets.Scripts.Sensors
 {
-    [Serializable]
-    public sealed class SensorsSettings
+    [CreateAssetMenu(fileName = "SensorsSettings", menuName = "Settings/Sensors", order = 1)]
+    public sealed class SensorsSettings : ScriptableObject
     {
         public CameraSettings CameraSettings;
 

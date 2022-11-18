@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83a0c108dba0cc3409c76bc18e8ce166, type: 3}
+  m_Name: InstallerSettings
+  m_EditorClassIdentifier: 
+  AgentSettings: {fileID: 11400000, guid: b334421dad53c4d47aa3138fcea11306, type: 2}
+  BridgeSettings: {fileID: 11400000, guid: efe3dda9a29420a4b8bb9bb0bcfad56b, type: 2}
+  StaticSimulationSettings: {fileID: 11400000, guid: 0262a29cec8344248b43be23d11bef5f,
+    type: 2}

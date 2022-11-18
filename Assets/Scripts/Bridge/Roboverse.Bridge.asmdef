@@ -2,6 +2,7 @@
     "name": "Roboverse.Bridge",
     "rootNamespace": "",
     "references": [
+        "GUID:d4fba3cda7b83f8489b04f8e0e9939d3",
         "GUID:625bfc588fb96c74696858f2c467e978",
         "GUID:5db6cbfd5d0e86a46862a70f4b4067f2"
     ],
