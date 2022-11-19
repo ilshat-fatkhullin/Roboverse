@@ -1,9 +1,7 @@
 ﻿using Assets.Scripts.Settings;
 using System;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using Button = UnityEngine.UI.Button;
 
 namespace Assets.Scripts.UI
 {
@@ -23,7 +21,7 @@ namespace Assets.Scripts.UI
 
         private readonly List<RoboversePanel> _panels = new();
 
-        private readonly List<Button> _buttons = new();
+        private readonly List<RoboverseButton> _buttons = new();
 
         [SerializeField]
         private RectTransform _content;
@@ -36,16 +34,15 @@ namespace Assets.Scripts.UI
             GameObject buttonObject = Instantiate(prefabs.Button, _tabs);
             GameObject panelObject = Instantiate(prefabs.Panel, _content);
 
-            Button button = buttonObject.GetComponent<Button>();
-            TextMeshProUGUI textMesh = buttonObject.GetComponentInChildren<TextMeshProUGUI>();
+            RoboverseButton button = buttonObject.GetComponent<RoboverseButton>();
 
             RoboversePanel panel = panelObject.GetComponent<RoboversePanel>();
 
             _panels.Add(panel);
             _buttons.Add(button);
 
-            textMesh.text = title;
-            button.onClick.AddListener(() => SelectPanel(panel, button));
+            button.Title = title;
+            button.Clicked += (_, _) => SelectPanel(panel, button);
 
             SelectPanel(panel, button);
 
@@ -68,6 +65,18 @@ namespace Assets.Scripts.UI
 
         public IRoboverseField<float> AddField(IUserInterfacePrefabs prefabs, FieldInfo<float> info) => CreateField(prefabs.FloatField, info);
 
+        public IRoboverseButton AddButton(IUserInterfacePrefabs prefabs, string title)
+        {
+            GameObject buttonObject = Instantiate(prefabs.Button, _content);            
+            
+            RoboverseButton button = buttonObject.GetComponent<RoboverseButton>();
+            _buttons.Add(button);
+
+            button.Title = title;
+
+            return button;
+        }
+
         private IRoboverseField<T> CreateField<T>(GameObject prefab, FieldInfo<T> info)
         {
             GameObject fieldObject = Instantiate(prefab, _content);
@@ -80,11 +89,11 @@ namespace Assets.Scripts.UI
             return field;
         }
 
-        private void SelectPanel(IRoboversePanel panel, Button button)
+        private void SelectPanel(IRoboversePanel panel, IRoboverseButton button)
         {
             HideAllPanels();
             panel.IsVisible = true;
-            button.interactable = false;
+            button.IsInteractable = false;
         }
 
         private void HideAllPanels()
@@ -94,9 +103,9 @@ namespace Assets.Scripts.UI
                 panel.IsVisible = false;
             }
 
-            foreach (Button button in _buttons)
+            foreach (IRoboverseButton button in _buttons)
             {
-                button.interactable = true;
+                button.IsInteractable = true;
             }
         }
     }

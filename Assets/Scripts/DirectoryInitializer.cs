@@ -1,16 +1,16 @@
 ﻿using System;
 using System.IO;
 
-namespace Assets.Scripts.Sensors.DatasetGeneration
+namespace Assets.Scripts
 {
     public static class DirectoryInitializer
     {
-        public static string Initialize(string topic)
+        public static string Initialize(string name, string root)
         {
             string pathToDirectory = Environment.CurrentDirectory;
-            pathToDirectory = Path.Combine(pathToDirectory, "Dataset");
+            pathToDirectory = Path.Combine(pathToDirectory, root);
 
-            string[] folders = topic.Split('/', '\\');
+            string[] folders = name.Split('/', '\\');
             foreach (string folder in folders)
             {
                 pathToDirectory = Path.Combine(pathToDirectory, folder);

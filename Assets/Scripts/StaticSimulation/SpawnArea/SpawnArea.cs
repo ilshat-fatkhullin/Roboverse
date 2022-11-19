@@ -8,8 +8,14 @@ namespace Assets.Scripts.StaticSimulation.SpawnArea
     {
         public Vector3 Origin 
         { 
-            get => _container.transform.position; 
-            set => _container.transform.position = value; 
+            get => _settings.Origin; 
+            set => _settings.Origin = value; 
+        }
+
+        public float Step
+        {
+            get => _settings.Step;
+            set => _settings.Step = value;
         }
 
         public bool IsVisible
@@ -52,6 +58,14 @@ namespace Assets.Scripts.StaticSimulation.SpawnArea
 
             _settings.OriginChanged += OriginChanged;
             _settings.StepChanged += StepChanged;
+        }
+
+        public void Dispose()
+        {
+            _settings.OriginChanged -= OriginChanged;
+            _settings.StepChanged -= StepChanged;
+
+            UnityEngine.Object.Destroy(_container);
         }
 
         public void AddBox(SpawnBox box)
@@ -135,21 +149,13 @@ namespace Assets.Scripts.StaticSimulation.SpawnArea
             Vector3 localPosition = worldPosition - Origin;
 
             return new(
-                Mathf.FloorToInt(localPosition.x / _settings.Step),
-                Mathf.FloorToInt(localPosition.y / _settings.Step),
-                Mathf.FloorToInt(localPosition.z / _settings.Step));
-        }
-
-        public void Dispose()
-        {
-            _settings.OriginChanged -= OriginChanged;
-            _settings.StepChanged -= StepChanged;
-
-            UnityEngine.Object.Destroy(_container);
+                Mathf.FloorToInt(localPosition.x / Step),
+                Mathf.FloorToInt(localPosition.y / Step),
+                Mathf.FloorToInt(localPosition.z / Step));
         }
 
         private VisibleSpawnBox CreateVisibleBox(SpawnBox box) =>
-            new(box, _settings.Step, _container.transform, _spawnBoxPrefab);
+            new(box, Step, _container.transform, _spawnBoxPrefab);
 
         private void OriginChanged(object sender, Vector3 origin)
         {

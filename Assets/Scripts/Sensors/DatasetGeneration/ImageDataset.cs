@@ -8,7 +8,7 @@ namespace Assets.Scripts.Sensors.DatasetGeneration
 
         public ImageDataset(string topic)
         {
-            _pathToDirectory = DirectoryInitializer.Initialize(topic);
+            _pathToDirectory = DirectoryInitializer.Initialize(topic, "Dataset");
         }
 
         public void AddImage(uint seq, byte[] data)

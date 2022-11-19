@@ -19,6 +19,8 @@ namespace Assets.Scripts.StaticSimulation
             }
         }
 
+        public ISpawnAreaStorage SpawnAreaStorage { get; }
+
         private bool _isActive;
 
         private readonly ServiceProvider _provider;
@@ -36,10 +38,12 @@ namespace Assets.Scripts.StaticSimulation
             collection.AddSingleton(settings);
             collection.AddSingleton(inputCallbacks);
             collection.AddSingleton<ISpawnArea, SpawnArea.SpawnArea>();
+            collection.AddSingleton<ISpawnAreaStorage, SpawnAreaStorage>();
             collection.AddSingleton<ISpawnAreaBuilder, SpawnAreaBuilder>();
 
             _provider = collection.BuildServiceProvider();
             _spawnArea = _provider.GetRequiredService<ISpawnArea>();
+            SpawnAreaStorage = _provider.GetRequiredService<ISpawnAreaStorage>();
             _provider.GetRequiredService<ISpawnAreaBuilder>();
         }
 

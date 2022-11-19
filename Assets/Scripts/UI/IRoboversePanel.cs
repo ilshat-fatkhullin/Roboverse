@@ -16,5 +16,7 @@ namespace Assets.Scripts.UI
         public IRoboverseField<int> AddField(IUserInterfacePrefabs prefabs, FieldInfo<int> info);
 
         public IRoboverseField<float> AddField(IUserInterfacePrefabs prefabs, FieldInfo<float> info);
+
+        public IRoboverseButton AddButton(IUserInterfacePrefabs prefabs, string title);
     }
 }

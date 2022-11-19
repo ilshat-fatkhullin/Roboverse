@@ -5,6 +5,10 @@ namespace Assets.Scripts.StaticSimulation.SpawnArea
 {
     public interface ISpawnArea
     {
+        public Vector3 Origin { get; set; }
+
+        public float Step { get; set; }
+        
         public bool IsVisible { get; set; }
 
         public IReadOnlyCollection<SpawnBox> Boxes { get; }
