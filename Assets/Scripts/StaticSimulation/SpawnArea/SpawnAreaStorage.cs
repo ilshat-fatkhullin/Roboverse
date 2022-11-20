@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using UnityEditor;
 using UnityEngine.SceneManagement;
 using Scene = UnityEngine.SceneManagement.Scene;
@@ -28,7 +29,7 @@ namespace Assets.Scripts.StaticSimulation.SpawnArea
                 return;
             }
 
-            foreach (SpawnBox box in _spawnArea.Boxes)
+            foreach (SpawnBox box in _spawnArea.Boxes.ToList())
             {
                 _spawnArea.RemoveBox(box);
             }

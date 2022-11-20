@@ -140,7 +140,7 @@ namespace Assets.Scripts.StaticSimulation.SpawnArea
                     continue;
                 }
 
-                _visibleBoxes.Add(neighbour, CreateVisibleBox(box));
+                _visibleBoxes.Add(neighbour, CreateVisibleBox(neighbour));
             }
         }
 
