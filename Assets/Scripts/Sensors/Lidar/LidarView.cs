@@ -19,7 +19,11 @@ namespace Assets.Scripts.Sensors.Lidar
 
         public float VerticalAngle => _verticalAngle;
 
-        public bool IsGeneratingDataset => _isGeneratingDataset;
+        public bool IsGeneratingDataset
+        {
+            get => _isGeneratingDataset;
+            set => _isGeneratingDataset = value;
+        }
 
         [SerializeField]
         private UnityEngine.Camera _camera;

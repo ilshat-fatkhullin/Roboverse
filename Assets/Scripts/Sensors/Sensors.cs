@@ -22,7 +22,6 @@ namespace Assets.Scripts.Sensors
         public Sensors(
             ISensorsView view,
             IBridge bridge,
-            IUnityCallbacks callbacks,
             SensorsSettings settings)
         {
             CameraList = view.CameraViews.Select(v => new Camera.Camera(v, bridge)).ToList();
@@ -35,9 +34,7 @@ namespace Assets.Scripts.Sensors
             SensorList.AddRange(GroundTruth2DList);
             SensorList.AddRange(GroundTruth3DList);
             SensorList.AddRange(LidarList);
-
-            callbacks.UpdateOccured += Callbacks_FixedUpdateOccured;
-        }        
+        }
 
         public void Dispose()
         {
@@ -47,7 +44,7 @@ namespace Assets.Scripts.Sensors
             }
         }
 
-        private void Callbacks_FixedUpdateOccured(object sender, EventArgs e)
+        public void Measure()
         {
             foreach (ISensor sensor in SensorList)
             {
@@ -55,6 +52,14 @@ namespace Assets.Scripts.Sensors
             }
 
             _seq++;
+        }
+
+        public void SetDatasetGeneration(bool isActive)
+        {
+            foreach (ISensor sensor in SensorList)
+            {
+                sensor.IsGeneratingDataset = isActive;
+            }
         }
     }
 }

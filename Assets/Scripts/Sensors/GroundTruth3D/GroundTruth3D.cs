@@ -4,6 +4,12 @@
     {
         public string Topic => _view.Topic;
 
+        public bool IsGeneratingDataset 
+        { 
+            get => _view.IsGeneratingDataset; 
+            set => _view.IsGeneratingDataset = value; 
+        }
+
         private readonly IGroundTruth3DView _view;
 
         public GroundTruth3D(IGroundTruth3DView view)

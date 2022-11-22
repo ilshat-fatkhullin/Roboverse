@@ -1,14 +1,14 @@
-﻿using Assets.Scripts.Settings;
+﻿using Assets.Scripts.StaticSimulation.SimulationRunner;
 using Assets.Scripts.StaticSimulation.SpawnArea;
 
 namespace Assets.Scripts.StaticSimulation
 {
     public interface IStaticSimulation
     {
-        public ISettings Settings { get; }
-
-        public bool IsActive { get; set; }
+        public ISpawnArea SpawnArea { get; }
 
         public ISpawnAreaStorage SpawnAreaStorage { get; }
+
+        public ISimulationRunner SimulationRunner { get; }
     }
 }

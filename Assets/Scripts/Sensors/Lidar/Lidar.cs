@@ -9,6 +9,12 @@ namespace Assets.Scripts.Sensors.Lidar
     {
         public string Topic => _view.Topic;
 
+        public bool IsGeneratingDataset 
+        { 
+            get => _view.IsGeneratingDataset; 
+            set => _view.IsGeneratingDataset = value; 
+        }
+
         private readonly ILidarView _view;
 
         private readonly PointCloudRenderer _renderer;
@@ -57,7 +63,7 @@ namespace Assets.Scripts.Sensors.Lidar
             PointCloudMsg message = PointCloudMessageBuilder.Build(seq, pointCloud);
             _publisher.Publish(() => message);
 
-            if (_view.IsGeneratingDataset)
+            if (IsGeneratingDataset)
             {
                 Texture2D texture = _pointCloudToDepthTextureConverter.Convert();
                 byte[] data = texture.EncodeToJPG();

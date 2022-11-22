@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Settings;
+﻿using Assets.Scripts.Agent;
+using Assets.Scripts.StaticSimulation.SimulationRunner;
 using Assets.Scripts.StaticSimulation.SpawnArea;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -7,43 +8,36 @@ namespace Assets.Scripts.StaticSimulation
 {
     public class StaticSimulation : IStaticSimulation, IDisposable
     {
-        public ISettings Settings { get; }
-
-        public bool IsActive 
-        { 
-            get => _isActive; 
-            set
-            {
-                _isActive = value;
-                _spawnArea.IsVisible = value;
-            }
-        }
+        public ISpawnArea SpawnArea { get; }
 
         public ISpawnAreaStorage SpawnAreaStorage { get; }
 
-        private bool _isActive;
+        public ISimulationRunner SimulationRunner { get; }        
 
         private readonly ServiceProvider _provider;
 
-        private readonly ISpawnArea _spawnArea;
-
         public StaticSimulation(
             StaticSimulationSettings settings,
-            IInputCallbacks inputCallbacks)
+            IInputCallbacks inputCallbacks,
+            IUnityCallbacks callbacks,
+            IAgent agent)
         {
-            Settings = settings;
-
             ServiceCollection collection = new();
             
-            collection.AddSingleton(settings);
-            collection.AddSingleton(inputCallbacks);
-            collection.AddSingleton<ISpawnArea, SpawnArea.SpawnArea>();
-            collection.AddSingleton<ISpawnAreaStorage, SpawnAreaStorage>();
-            collection.AddSingleton<ISpawnAreaBuilder, SpawnAreaBuilder>();
+            collection.AddSingleton<ISpawnArea>(s => new SpawnArea.SpawnArea(settings.SpawnAreaSettings));
+            collection.AddSingleton<ISpawnAreaStorage>(s => new SpawnAreaStorage(s.GetService<ISpawnArea>()));
+            collection.AddSingleton<ISpawnAreaBuilder>(s => new SpawnAreaBuilder(inputCallbacks, s.GetService<ISpawnArea>()));
+            collection.AddSingleton<ISpawnPositionGetter>(s => new SpawnPositionGetter(s.GetService<ISpawnArea>()));
+            collection.AddSingleton<ISimulationRunner>(s => new SimulationRunner.SimulationRunner(
+                settings.SimulationRunnerSettings,
+                agent,
+                s.GetService<ISpawnPositionGetter>(),
+                callbacks));
 
             _provider = collection.BuildServiceProvider();
-            _spawnArea = _provider.GetRequiredService<ISpawnArea>();
+            SpawnArea = _provider.GetRequiredService<ISpawnArea>();
             SpawnAreaStorage = _provider.GetRequiredService<ISpawnAreaStorage>();
+            SimulationRunner = _provider.GetRequiredService<ISimulationRunner>();
             _provider.GetRequiredService<ISpawnAreaBuilder>();
         }
 

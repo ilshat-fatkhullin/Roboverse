@@ -45,7 +45,7 @@ namespace Assets.Scripts.Installers
             collection.AddSingleton<IRoboversePanel>(_roboversePanel);
             collection.AddSingleton(_settings.AgentSettings);
             collection.AddSingleton(_settings.BridgeSettings.RosSettings);
-            collection.AddSingleton<Agent.Agent>();
+            collection.AddSingleton<IAgent, Agent.Agent>();
             collection.AddSingleton(_settings.StaticSimulationSettings);
             collection.AddSingleton<IStaticSimulation, StaticSimulation.StaticSimulation>();
             collection.AddSingleton<StaticSimulationView>();
@@ -53,7 +53,7 @@ namespace Assets.Scripts.Installers
             collection.AddSingleton<BridgeView>();
 
             _provider = collection.BuildServiceProvider();
-            _provider.GetService<Agent.Agent>();
+            _provider.GetService<IAgent>();
             _provider.GetService<StaticSimulationView>();
             _provider.GetService<BridgeView>();
         }

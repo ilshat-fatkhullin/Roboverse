@@ -10,7 +10,11 @@ namespace Assets.Scripts.Sensors.Camera
 
         public UnityEngine.Camera Camera => _camera;
 
-        public bool IsGeneratingDataset => _isGeneratingDataset;
+        public bool IsGeneratingDataset
+        {
+            get => _isGeneratingDataset;
+            set => _isGeneratingDataset = value;
+        }
 
         public int Width => _width;
 

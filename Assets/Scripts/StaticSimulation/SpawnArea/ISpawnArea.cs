@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using Assets.Scripts.Settings;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.StaticSimulation.SpawnArea
 {
     public interface ISpawnArea
     {
+        public ISettings Settings { get; }
+
         public Vector3 Origin { get; set; }
 
         public float Step { get; set; }

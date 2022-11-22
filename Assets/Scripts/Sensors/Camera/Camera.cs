@@ -7,6 +7,12 @@ namespace Assets.Scripts.Sensors.Camera
     public sealed class Camera : ISensor
     {
         public string Topic => _view.Topic;
+        
+        public bool IsGeneratingDataset
+        {
+            get => _view.IsGeneratingDataset;
+            set => _view.IsGeneratingDataset = value;
+        }
 
         private readonly ICameraView _view;
 
@@ -40,7 +46,7 @@ namespace Assets.Scripts.Sensors.Camera
             byte[] data = _renderer.Render();
             _publisher.Publish(() => _messageBuilder.Build(seq, data));
 
-            if (_view.IsGeneratingDataset)
+            if (IsGeneratingDataset)
             {
                 _dataset.AddImage(seq, data);
             }

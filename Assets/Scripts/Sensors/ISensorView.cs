@@ -4,6 +4,6 @@
     {
         public string Topic { get; }
 
-        public bool IsGeneratingDataset { get; }
+        public bool IsGeneratingDataset { get; set; }
     }
 }

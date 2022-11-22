@@ -24,15 +24,19 @@ namespace Assets.Scripts.UI
         private readonly List<RoboverseButton> _buttons = new();
 
         [SerializeField]
-        private RectTransform _content;
+        private RectTransform _fieldsContainer;
 
         [SerializeField]
-        private RectTransform _tabs;
+        private RectTransform _panelsContainer;
+
+        [SerializeField]
+        private RectTransform _tabsContainer;
 
         public IRoboversePanel AddPanel(IUserInterfacePrefabs prefabs, string title)
         {
-            GameObject buttonObject = Instantiate(prefabs.Button, _tabs);
-            GameObject panelObject = Instantiate(prefabs.Panel, _content);
+            GameObject buttonObject = Instantiate(prefabs.Button, _tabsContainer);
+            GameObject panelObject = Instantiate(prefabs.Panel, _panelsContainer);
+            panelObject.name = title;
 
             RoboverseButton button = buttonObject.GetComponent<RoboverseButton>();
 
@@ -67,7 +71,7 @@ namespace Assets.Scripts.UI
 
         public IRoboverseButton AddButton(IUserInterfacePrefabs prefabs, string title)
         {
-            GameObject buttonObject = Instantiate(prefabs.Button, _content);            
+            GameObject buttonObject = Instantiate(prefabs.Button, _fieldsContainer);            
             
             RoboverseButton button = buttonObject.GetComponent<RoboverseButton>();
             _buttons.Add(button);
@@ -79,7 +83,7 @@ namespace Assets.Scripts.UI
 
         private IRoboverseField<T> CreateField<T>(GameObject prefab, FieldInfo<T> info)
         {
-            GameObject fieldObject = Instantiate(prefab, _content);
+            GameObject fieldObject = Instantiate(prefab, _fieldsContainer);
             IRoboverseField<T> field = fieldObject.GetComponent<IRoboverseField<T>>();
 
             field.Title = info.Name;

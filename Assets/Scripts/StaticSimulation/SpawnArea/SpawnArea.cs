@@ -1,3 +1,4 @@
+using Assets.Scripts.Settings;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,9 +7,11 @@ namespace Assets.Scripts.StaticSimulation.SpawnArea
 {
     public class SpawnArea : ISpawnArea, IDisposable
     {
+        public ISettings Settings => _settings;
+
         public Vector3 Origin 
         { 
-            get => _settings.Origin; 
+            get => _settings.Origin;
             set => _settings.Origin = value; 
         }
 
@@ -28,9 +31,9 @@ namespace Assets.Scripts.StaticSimulation.SpawnArea
             }
         }
 
-        public IReadOnlyCollection<SpawnBox> Boxes => _boxes;
+        public IReadOnlyCollection<SpawnBox> Boxes => _boxes;        
 
-        private readonly StaticSimulationSettings _settings;
+        private readonly SpawnAreaSettings _settings;
 
         private readonly GameObject _spawnBoxPrefab;
 
@@ -46,7 +49,7 @@ namespace Assets.Scripts.StaticSimulation.SpawnArea
 
         private bool _isVisible;
 
-        public SpawnArea(StaticSimulationSettings settings)
+        public SpawnArea(SpawnAreaSettings settings)
         {
             _settings = settings;
             _spawnBoxPrefab = _settings.SpawnBoxPrefab;

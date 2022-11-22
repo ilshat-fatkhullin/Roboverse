@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d89f99df690df54b8130e2234ce77cb, type: 3}
   m_Name: StaticSimulationSettings
   m_EditorClassIdentifier: 
-  SpawnBoxPrefab: {fileID: 3240931692513034270, guid: ef7bf6ca9969ef3408201d8142863a9b,
-    type: 3}
-  _origin: {x: 0, y: 0, z: 0}
-  _step: 1
+  _simulationRunnerSettings: {fileID: 11400000, guid: 178cb6ce352b5c047b63e85d2ad79f95,
+    type: 2}
+  _spawnAreaSettings: {fileID: 11400000, guid: a22cc405f693505408e24099e7fa9044, type: 2}

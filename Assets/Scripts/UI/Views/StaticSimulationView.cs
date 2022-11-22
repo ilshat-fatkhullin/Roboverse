@@ -1,55 +1,35 @@
 ﻿using Assets.Scripts.StaticSimulation;
+using Assets.Scripts.UI.Views.StaticSimulation;
 using System;
 
 namespace Assets.Scripts.UI.Views
 {
     public class StaticSimulationView : View, IDisposable
     {
-        private readonly IStaticSimulation _staticSimulation;
+        private readonly SimulationRunnerView _simulationRunnerView;
 
-        private readonly IRoboverseButton _saveButton;
-
-        private readonly IRoboverseButton _loadButton;
+        private readonly SpawnAreaView _spawnAreaView;
 
         public StaticSimulationView(
             IStaticSimulation staticSimulation,
             IRoboversePanel parent, 
             IUserInterfacePrefabs prefabs) : base(parent, prefabs, "Static simulation")
         {
-            _staticSimulation = staticSimulation;
-            _panel.IsVisibleChanged += IsVisibleChanged;
-            IsVisibleChanged(this, _panel.IsVisible);
-
-            CreateSettings(staticSimulation.Settings);
-            
-            _saveButton = _panel.AddButton(_prefabs, "Save");
-            _loadButton = _panel.AddButton(_prefabs, "Load");
-
-            _saveButton.Clicked += SaveButton_Clicked;
-            _loadButton.Clicked += LoadButton_Clicked;
+            _simulationRunnerView = new SimulationRunnerView(
+                staticSimulation.SimulationRunner,
+                _panel,
+                prefabs);
+            _spawnAreaView = new SpawnAreaView(
+                staticSimulation.SpawnArea,
+                staticSimulation.SpawnAreaStorage,
+                _panel,
+                prefabs);
         }
 
         public void Dispose()
         {
-            _panel.IsVisibleChanged -= IsVisibleChanged;
-            
-            _saveButton.Dispose();
-            _loadButton.Dispose();
-        }
-
-        private void IsVisibleChanged(object sender, bool isVisible)
-        {
-            _staticSimulation.IsActive = isVisible;
-        }
-
-        private void SaveButton_Clicked(object sender, EventArgs e)
-        {
-            _staticSimulation.SpawnAreaStorage.Save();
-        }
-
-        private void LoadButton_Clicked(object sender, EventArgs e)
-        {
-            _staticSimulation.SpawnAreaStorage.Load();
+            _simulationRunnerView.Dispose();
+            _spawnAreaView.Dispose();            
         }
     }
 }

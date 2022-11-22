@@ -1,19 +1,34 @@
 ﻿using Assets.Scripts.Bridge;
 using System;
+using UnityEngine;
 
 namespace Assets.Scripts.Agent
 {
-    public sealed class Agent : IDisposable
+    public sealed class Agent : IAgent, IDisposable
     {
+        public Vector3 Position
+        {
+            get => _view.GameObject.transform.position;
+            set => _view.GameObject.transform.position = value;
+        }
+
+        public Quaternion Rotation
+        {
+            get => _view.GameObject.transform.rotation;
+            set => _view.GameObject.transform.rotation = value;
+        }
+
         public Sensors.Sensors Sensors { get; }
+
+        private readonly IAgentView _view;
 
         public Agent(
             IAgentView view,
             AgentSettings settings,
-            IBridge bridge,
-            IUnityCallbacks callbacks)
+            IBridge bridge)
         {
-            Sensors = new Sensors.Sensors(view.SensorsView, bridge, callbacks, settings.SensorsSettings);
+            _view = view;
+            Sensors = new Sensors.Sensors(view.SensorsView, bridge, settings.SensorsSettings);
         }
 
         public void Dispose()
