@@ -2146,7 +2146,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   volumeAnchorOverride: {fileID: 0}
-  antialiasing: 0
+  antialiasing: 2
   SMAAQuality: 2
   dithering: 0
   stopNaNs: 0
@@ -26134,6 +26134,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8352110474074728215, guid: 7ce49029446330e42b80c778b1ee4bfa,
+        type: 3}
+      propertyPath: antialiasing
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8352110474101680680, guid: 7ce49029446330e42b80c778b1ee4bfa,
         type: 3}
       propertyPath: m_Name

@@ -13,7 +13,7 @@ namespace Assets.Scripts.Sensors.DatasetGeneration
 
         public void AddImage(uint seq, byte[] data)
         {
-            string pathToFile = Path.Combine(_pathToDirectory, $"{seq}.jpg");
+            string pathToFile = Path.Combine(_pathToDirectory, $"{seq}.png");
             File.WriteAllBytes(pathToFile, data);
         }
     }

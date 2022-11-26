@@ -53,9 +53,9 @@ namespace Assets.Scripts.Sensors.Lidar
 
         private void InitializeAccelerationStructure()
         {
-            RayTracingAccelerationStructure.RASSettings settings = new RayTracingAccelerationStructure.RASSettings
+            RayTracingAccelerationStructure.RASSettings settings = new()
             {
-                layerMask = LayerMask.GetMask("Default"),
+                layerMask = _camera.cullingMask,
                 managementMode = RayTracingAccelerationStructure.ManagementMode.Automatic,
                 rayTracingModeMask = RayTracingAccelerationStructure.RayTracingModeMask.Everything
             };

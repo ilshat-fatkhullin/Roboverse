@@ -22,12 +22,18 @@ namespace Assets.Scripts.Sensors.Camera
 
             _camera.targetTexture = _renderTexture;
         }
-
-        public byte[] Render()
+        
+        public Texture2D RenderIntoTexture2D()
         {
             _camera.Render();
             Texture2D texture = RenderTextureToTexture2DConverter.Convert(_renderTexture);
-            return texture.EncodeToJPG();
+            return texture;
+        }
+
+        public byte[] RenderIntoBytes()
+        {
+            Texture2D texture = RenderIntoTexture2D();
+            return texture.EncodeToPNG();
         }
 
         public void Dispose()

@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Agent;
 using Assets.Scripts.StaticSimulation.SimulationRunner;
 using Assets.Scripts.StaticSimulation.SpawnArea;
+using Assets.Scripts.StaticSimulation.Spawner;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
@@ -32,7 +33,9 @@ namespace Assets.Scripts.StaticSimulation
                 settings.SimulationRunnerSettings,
                 agent,
                 s.GetService<ISpawnPositionGetter>(),
-                callbacks));
+                callbacks,
+                s.GetService<ISpawner>()));
+            collection.AddSingleton<ISpawner>(s => new Spawner.Spawner(settings.SpawnerSettings, agent.Sensors));
 
             _provider = collection.BuildServiceProvider();
             SpawnArea = _provider.GetRequiredService<ISpawnArea>();

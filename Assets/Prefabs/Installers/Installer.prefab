@@ -751,59 +751,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8352110474101680683}
     m_Modifications:
-    - target: {fileID: 1803486520, guid: 0116fdaecec07574492e234c2a44b66c, type: 3}
-      propertyPath: m_AllowMSAA
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1803486520, guid: 0116fdaecec07574492e234c2a44b66c, type: 3}
-      propertyPath: field of view
-      value: 60
-      objectReference: {fileID: 0}
-    - target: {fileID: 1803486520, guid: 0116fdaecec07574492e234c2a44b66c, type: 3}
-      propertyPath: m_FocalLength
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 1803486520, guid: 0116fdaecec07574492e234c2a44b66c, type: 3}
-      propertyPath: far clip plane
-      value: 1000
-      objectReference: {fileID: 0}
-    - target: {fileID: 1803486520, guid: 0116fdaecec07574492e234c2a44b66c, type: 3}
-      propertyPath: m_SensorSize.y
-      value: 24
-      objectReference: {fileID: 0}
-    - target: {fileID: 1803486520, guid: 0116fdaecec07574492e234c2a44b66c, type: 3}
-      propertyPath: near clip plane
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1803486520, guid: 0116fdaecec07574492e234c2a44b66c, type: 3}
-      propertyPath: m_CullingMask.m_Bits
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1803486521, guid: 0116fdaecec07574492e234c2a44b66c, type: 3}
-      propertyPath: clearColorMode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1803486521, guid: 0116fdaecec07574492e234c2a44b66c, type: 3}
-      propertyPath: backgroundColorHDR.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1803486521, guid: 0116fdaecec07574492e234c2a44b66c, type: 3}
-      propertyPath: backgroundColorHDR.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1803486521, guid: 0116fdaecec07574492e234c2a44b66c, type: 3}
-      propertyPath: backgroundColorHDR.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1803486521, guid: 0116fdaecec07574492e234c2a44b66c, type: 3}
-      propertyPath: volumeLayerMask.m_Bits
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 842086868329129525, guid: 0116fdaecec07574492e234c2a44b66c,
-        type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 842086869758694355, guid: 0116fdaecec07574492e234c2a44b66c,
         type: 3}
       propertyPath: m_Name
@@ -864,25 +811,95 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 842086869879029331, guid: 0116fdaecec07574492e234c2a44b66c,
+    - target: {fileID: 4430669955421642603, guid: 0116fdaecec07574492e234c2a44b66c,
         type: 3}
-      propertyPath: _cameraViews.Array.size
+      propertyPath: injectionPoint
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4430669955421642603, guid: 0116fdaecec07574492e234c2a44b66c,
+        type: 3}
+      propertyPath: customPasses.Array.data[0]
+      value: 4481365864602664967
+      objectReference: {fileID: 0}
+    - target: {fileID: 4430669955421642603, guid: 0116fdaecec07574492e234c2a44b66c,
+        type: 3}
+      propertyPath: managedReferences[4481365864602664967]
+      value: Unity.RenderPipelines.HighDefinition.Runtime UnityEngine.Rendering.HighDefinition.FullScreenCustomPass
+      objectReference: {fileID: 0}
+    - target: {fileID: 4430669955421642603, guid: 0116fdaecec07574492e234c2a44b66c,
+        type: 3}
+      propertyPath: managedReferences[4481365864602664967].m_Name
+      value: Custom Pass
+      objectReference: {fileID: 0}
+    - target: {fileID: 4430669955421642603, guid: 0116fdaecec07574492e234c2a44b66c,
+        type: 3}
+      propertyPath: managedReferences[4481365864602664967].enabled
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 7913723907208249799, guid: 0116fdaecec07574492e234c2a44b66c,
+    - target: {fileID: 4430669955421642603, guid: 0116fdaecec07574492e234c2a44b66c,
         type: 3}
-      propertyPath: m_Enabled
+      propertyPath: managedReferences[4481365864602664967].m_Version
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4430669955421642603, guid: 0116fdaecec07574492e234c2a44b66c,
+        type: 3}
+      propertyPath: managedReferences[4481365864602664967].clearFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4430669955421642603, guid: 0116fdaecec07574492e234c2a44b66c,
+        type: 3}
+      propertyPath: managedReferences[4481365864602664967].passFoldout
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4430669955421642603, guid: 0116fdaecec07574492e234c2a44b66c,
+        type: 3}
+      propertyPath: managedReferences[4481365864602664967].fetchColorBuffer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4430669955421642603, guid: 0116fdaecec07574492e234c2a44b66c,
+        type: 3}
+      propertyPath: managedReferences[4481365864602664967].materialPassName
+      value: Custom Pass 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4430669955421642603, guid: 0116fdaecec07574492e234c2a44b66c,
+        type: 3}
+      propertyPath: managedReferences[4481365864602664967].materialPassIndex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4430669955421642603, guid: 0116fdaecec07574492e234c2a44b66c,
+        type: 3}
+      propertyPath: managedReferences[4481365864602664967].targetColorBuffer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4430669955421642603, guid: 0116fdaecec07574492e234c2a44b66c,
+        type: 3}
+      propertyPath: managedReferences[4481365864602664967].targetDepthBuffer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4430669955421642603, guid: 0116fdaecec07574492e234c2a44b66c,
+        type: 3}
+      propertyPath: managedReferences[4481365864602664967].fullscreenPassMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 0312930ac636ebc4d9761728f4e74555, type: 2}
+    - target: {fileID: 5517366729885798516, guid: 0116fdaecec07574492e234c2a44b66c,
+        type: 3}
+      propertyPath: probeLayerMask.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5517366729885798516, guid: 0116fdaecec07574492e234c2a44b66c,
+        type: 3}
+      propertyPath: volumeLayerMask.m_Bits
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7913723907208249799, guid: 0116fdaecec07574492e234c2a44b66c,
         type: 3}
       propertyPath: far clip plane
-      value: 1000
+      value: 50
       objectReference: {fileID: 0}
-    - target: {fileID: 7913723907208249799, guid: 0116fdaecec07574492e234c2a44b66c,
+    - target: {fileID: 8835075278013976437, guid: 0116fdaecec07574492e234c2a44b66c,
         type: 3}
-      propertyPath: near clip plane
-      value: 0.3
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0116fdaecec07574492e234c2a44b66c, type: 3}

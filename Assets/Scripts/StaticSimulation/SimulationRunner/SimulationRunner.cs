@@ -1,6 +1,8 @@
 ﻿using Assets.Scripts.Agent;
+using Assets.Scripts.Sensors;
 using Assets.Scripts.Settings;
 using Assets.Scripts.StaticSimulation.SpawnArea;
+using Assets.Scripts.StaticSimulation.Spawner;
 using System;
 using UnityEngine;
 
@@ -22,6 +24,8 @@ namespace Assets.Scripts.StaticSimulation.SimulationRunner
 
         private readonly IUnityCallbacks _callbacks;
 
+        private readonly ISpawner _spawner;
+
         private int _currentMeasurement;
 
         private float _nextMeasurementTime;
@@ -30,12 +34,14 @@ namespace Assets.Scripts.StaticSimulation.SimulationRunner
             SimulationRunnerSettings settings,
             IAgent agent,
             ISpawnPositionGetter spawnPositionGetter,
-            IUnityCallbacks callbacks)
+            IUnityCallbacks callbacks,
+            ISpawner spawner)
         {
             _settings = settings;
             _agent = agent;
             _spawnPositionGetter = spawnPositionGetter;
             _callbacks = callbacks;
+            _spawner = spawner;
 
             _callbacks.UpdateOccured += OnUpdateOccured;
         }
@@ -48,12 +54,15 @@ namespace Assets.Scripts.StaticSimulation.SimulationRunner
             {
                 return;
             }
-
+            
             _agent.Sensors.Measure();
-
+                        
             RespawnAgent();
             ResetMeasurementTime();
             _currentMeasurement++;
+            
+            _spawner.Clear();            
+            _spawner.Spawn();
         }
 
         public void Start()
@@ -69,6 +78,9 @@ namespace Assets.Scripts.StaticSimulation.SimulationRunner
             ResetMeasurementTime();
             _currentMeasurement = 0;
             _agent.Sensors.SetDatasetGeneration(true);
+
+            _spawner.Clear();
+            _spawner.Spawn();
         }
 
         public void Stop()

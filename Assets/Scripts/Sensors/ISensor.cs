@@ -6,7 +6,9 @@ namespace Assets.Scripts.Sensors
     {
         public string Topic { get; }
 
-        public bool IsGeneratingDataset { get; set; }
+        public ISensetiveArea SensetiveArea { get; }
+
+        public bool IsGeneratingDataset { get; set; }        
 
         public void Send(uint seq);
     }

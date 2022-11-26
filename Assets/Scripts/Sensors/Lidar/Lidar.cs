@@ -15,6 +15,8 @@ namespace Assets.Scripts.Sensors.Lidar
             set => _view.IsGeneratingDataset = value; 
         }
 
+        public ISensetiveArea SensetiveArea { get; }
+
         private readonly ILidarView _view;
 
         private readonly PointCloudRenderer _renderer;
@@ -48,13 +50,14 @@ namespace Assets.Scripts.Sensors.Lidar
                 _view.Camera.farClipPlane,
                 _renderer.PointCloudBuffer,
                 settings.PointCloudToDepthTextureConverterShader);
+            SensetiveArea = new LidarSensetiveArea(this);
         }        
 
         public void Dispose()
         {
             _renderer.Dispose();
             _pointCloudToDepthTextureConverter.Dispose();
-            Object.Destroy(_view.GameObject);
+            Object.Destroy(_view.GameObject);            
         }
 
         public void Send(uint seq)

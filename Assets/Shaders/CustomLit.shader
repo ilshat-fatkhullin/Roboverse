@@ -1254,6 +1254,17 @@ Shader "Custom/Lit"
 
             ENDHLSL
         }
+
+        Pass
+        {
+            Name "Depth"
+
+            HLSLPROGRAM
+
+            #include "Assets/Shaders/Depth.hlsl"
+
+            ENDHLSL
+        }
     }
 
     FallBack "Hidden/HDRP/FallbackError"

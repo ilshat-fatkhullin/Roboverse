@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: SimulationRunnerSettings
   m_EditorClassIdentifier: 
   _measurements: 1000
-  _delay: 1
+  _delay: 2
