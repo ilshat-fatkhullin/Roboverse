@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.UI
 {
-    public class RoboversePanel : MonoBehaviour, IRoboversePanel, IDisposable
+    public class RoboversePanel : MonoBehaviour, IRoboversePanel
     {
         public bool IsVisible
         {

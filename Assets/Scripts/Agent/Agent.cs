@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Bridge;
+using Assets.Scripts.Bridge.Ros;
 using System;
 using UnityEngine;
 
@@ -25,7 +26,7 @@ namespace Assets.Scripts.Agent
         public Agent(
             IAgentView view,
             AgentSettings settings,
-            IBridge bridge)
+            IRosBridge bridge)
         {
             _view = view;
             Sensors = new Sensors.Sensors(view.SensorsView, bridge, settings.SensorsSettings);

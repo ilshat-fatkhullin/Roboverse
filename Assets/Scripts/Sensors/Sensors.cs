@@ -1,4 +1,4 @@
-using Assets.Scripts.Bridge;
+using Assets.Scripts.Bridge.Ros;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +17,7 @@ namespace Assets.Scripts.Sensors
 
         public Sensors(
             ISensorsView view,
-            IBridge bridge,
+            IRosBridge bridge,
             SensorsSettings settings)
         {
             CameraList = view.CameraViews.Select(v => new Camera.Camera(v, bridge)).ToList();

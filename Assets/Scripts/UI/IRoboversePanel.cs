@@ -3,7 +3,7 @@ using System;
 
 namespace Assets.Scripts.UI
 {
-    public interface IRoboversePanel
+    public interface IRoboversePanel : IDisposable
     {
         public bool IsVisible { get; set; }
 

@@ -3,7 +3,7 @@ using System;
 
 namespace Assets.Scripts.UI.Views.StaticSimulation
 {
-    public class SpawnAreaView : View, IDisposable
+    public sealed class SpawnAreaView : View, IDisposable
     {
         private readonly ISpawnArea _spawnArea;
 
@@ -21,21 +21,23 @@ namespace Assets.Scripts.UI.Views.StaticSimulation
         {
             _spawnArea = spawnArea;
             _storage = storage;
-            _panel.IsVisibleChanged += IsVisibleChanged;
-            IsVisibleChanged(this, _panel.IsVisible);
+            Panel.IsVisibleChanged += IsVisibleChanged;
+            IsVisibleChanged(this, Panel.IsVisible);
 
             CreateSettings(spawnArea.Settings);
 
-            _saveButton = _panel.AddButton(_prefabs, "Save");
-            _loadButton = _panel.AddButton(_prefabs, "Load");
+            _saveButton = Panel.AddButton(_prefabs, "Save");
+            _loadButton = Panel.AddButton(_prefabs, "Load");
 
             _saveButton.Clicked += SaveButton_Clicked;
             _loadButton.Clicked += LoadButton_Clicked;
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
-            _panel.IsVisibleChanged -= IsVisibleChanged;
+            base.Dispose();
+
+            Panel.IsVisibleChanged -= IsVisibleChanged;
 
             _saveButton.Dispose();
             _loadButton.Dispose();

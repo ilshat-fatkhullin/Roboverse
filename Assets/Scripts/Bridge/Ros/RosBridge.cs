@@ -4,7 +4,7 @@ using Unity.Robotics.ROSTCPConnector.MessageGeneration;
 
 namespace Assets.Scripts.Bridge.Ros
 {
-    public class RosBridge : IBridge
+    public class RosBridge : IRosBridge
     {
         public ISettings Settings { get; }
 
@@ -19,7 +19,7 @@ namespace Assets.Scripts.Bridge.Ros
             _connection.RosPort = settings.Port;
         }
 
-        public string Name => "ROS bridge";
+        public string Name => "ROS";
 
         public IPublisher<T> CreatePublisher<T>(string topic) where T : Message
         {

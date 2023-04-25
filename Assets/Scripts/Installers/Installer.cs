@@ -1,5 +1,5 @@
 using Assets.Scripts.Agent;
-using Assets.Scripts.Bridge;
+using Assets.Scripts.Bridge.Kafka;
 using Assets.Scripts.Bridge.Ros;
 using Assets.Scripts.StaticSimulation;
 using Assets.Scripts.UI;
@@ -45,17 +45,19 @@ namespace Assets.Scripts.Installers
             collection.AddSingleton<IRoboversePanel>(_roboversePanel);
             collection.AddSingleton(_settings.AgentSettings);
             collection.AddSingleton(_settings.BridgeSettings.RosSettings);
+            collection.AddSingleton(_settings.BridgeSettings.KafkaSettings);
             collection.AddSingleton<IAgent, Agent.Agent>();
             collection.AddSingleton(_settings.StaticSimulationSettings);
             collection.AddSingleton<IStaticSimulation, StaticSimulation.StaticSimulation>();
             collection.AddSingleton<StaticSimulationView>();
-            collection.AddSingleton<IBridge, RosBridge>();
-            collection.AddSingleton<BridgeView>();
+            collection.AddSingleton<IRosBridge, RosBridge>();
+            collection.AddSingleton<IKafkaBridge, KafkaBridge>();
+            collection.AddSingleton<BridgesView>();
 
             _provider = collection.BuildServiceProvider();
             _provider.GetService<IAgent>();
             _provider.GetService<StaticSimulationView>();
-            _provider.GetService<BridgeView>();
+            _provider.GetService<BridgesView>();
         }
 
         private void OnDestroy()

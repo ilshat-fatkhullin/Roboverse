@@ -8,7 +8,7 @@ namespace Assets.Scripts.Bridge.Ros
     {
         public string Topic { get; }
 
-        public event EventHandler<T> RosMessageArrived;
+        public event EventHandler<T> MessageArrived;
 
         private readonly ROSConnection _connection;
 
@@ -22,7 +22,7 @@ namespace Assets.Scripts.Bridge.Ros
 
         private void OnMessageArrived(T message)
         {
-            RosMessageArrived?.Invoke(this, message);
+            MessageArrived?.Invoke(this, message);
         }
 
         public void Dispose()

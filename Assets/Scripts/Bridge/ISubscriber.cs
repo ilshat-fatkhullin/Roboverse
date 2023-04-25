@@ -1,12 +1,11 @@
 ﻿using System;
-using Unity.Robotics.ROSTCPConnector.MessageGeneration;
 
 namespace Assets.Scripts.Bridge
 {
-    public interface ISubscriber<Ros> : IDisposable where Ros : Message
+    public interface ISubscriber<T>
     {
         public string Topic { get; }
 
-        public event EventHandler<Ros> RosMessageArrived;
+        public event EventHandler<T> MessageArrived;
     }
 }

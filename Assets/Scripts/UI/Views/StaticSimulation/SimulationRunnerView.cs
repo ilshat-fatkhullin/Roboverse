@@ -3,7 +3,7 @@ using System;
 
 namespace Assets.Scripts.UI.Views.StaticSimulation
 {
-    public class SimulationRunnerView : View, IDisposable
+    public sealed class SimulationRunnerView : View, IDisposable
     {
         private readonly ISimulationRunner _simulationRunner;
 
@@ -20,15 +20,17 @@ namespace Assets.Scripts.UI.Views.StaticSimulation
 
             CreateSettings(simulationRunner.Settings);
 
-            _startButton = _panel.AddButton(prefabs, "Start");
-            _stopButton = _panel.AddButton(prefabs, "Stop");
+            _startButton = Panel.AddButton(prefabs, "Start");
+            _stopButton = Panel.AddButton(prefabs, "Stop");
 
             _startButton.Clicked += StartButton_Clicked;
             _stopButton.Clicked += StopButton_Clicked;
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
+            base.Dispose();
+
             _startButton.Clicked -= StartButton_Clicked;
             _startButton.Dispose();
         }

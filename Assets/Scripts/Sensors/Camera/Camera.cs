@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Bridge;
+using Assets.Scripts.Bridge.Ros;
 using Assets.Scripts.Sensors.DatasetGeneration;
 using RosMessageTypes.Sensor;
 
@@ -36,7 +37,7 @@ namespace Assets.Scripts.Sensors.Camera
 
         public Camera(
             ICameraView view,
-            IBridge bridge)
+            IRosBridge bridge)
         {
             _view = view;
             _publisher = bridge.CreatePublisher<ImageMsg>(Topic);

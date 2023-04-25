@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Bridge.Ros;
+﻿using Assets.Scripts.Bridge.Kafka;
+using Assets.Scripts.Bridge.Ros;
 using UnityEngine;
 
 namespace Assets.Scripts.Bridge
@@ -7,5 +8,7 @@ namespace Assets.Scripts.Bridge
     public sealed class BridgeSettings : ScriptableObject
     {
         public RosSettings RosSettings;
+
+        public KafkaSettings KafkaSettings;
     }
 }

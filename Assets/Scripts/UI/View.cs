@@ -1,12 +1,13 @@
 ﻿using Assets.Scripts.Settings;
+using System;
 
 namespace Assets.Scripts.UI
 {
-    public abstract class View
+    public abstract class View : IDisposable
     {
         protected readonly IUserInterfacePrefabs _prefabs;
 
-        protected readonly IRoboversePanel _panel;
+        protected readonly IRoboversePanel Panel;
 
         public View(
             IRoboversePanel parent,
@@ -14,24 +15,29 @@ namespace Assets.Scripts.UI
             string title)
         {
             _prefabs = prefabs;
-            _panel = parent.AddPanel(_prefabs, title);
+            Panel = parent.AddPanel(_prefabs, title);
+        }
+
+        public virtual void Dispose()
+        {
+            Panel.Dispose();
         }
 
         protected void CreateSettings(ISettings settings)
         {
             foreach (FieldInfo<float> fieldInfo in settings.FloatFields)
             {
-                _panel.AddField(_prefabs, fieldInfo);
+                Panel.AddField(_prefabs, fieldInfo);
             }
 
             foreach (FieldInfo<int> fieldInfo in settings.IntFields)
             {
-                _panel.AddField(_prefabs, fieldInfo);
+                Panel.AddField(_prefabs, fieldInfo);
             }
 
             foreach (FieldInfo<string> fieldInfo in settings.StringFields)
             {
-                _panel.AddField(_prefabs, fieldInfo);
+                Panel.AddField(_prefabs, fieldInfo);
             }
         }
     }

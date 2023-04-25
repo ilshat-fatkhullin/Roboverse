@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Bridge;
+using Assets.Scripts.Bridge.Ros;
 using Assets.Scripts.Sensors.DatasetGeneration;
 using RosMessageTypes.Sensor;
 using UnityEngine;
@@ -29,7 +30,7 @@ namespace Assets.Scripts.Sensors.Lidar
 
         public Lidar(
             ILidarView view,
-            IBridge bridge,
+            IRosBridge bridge,
             LidarSettings settings)
         {
             _view = view;

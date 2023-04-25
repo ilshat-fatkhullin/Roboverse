@@ -17,17 +17,19 @@ namespace Assets.Scripts.UI.Views
         {
             _simulationRunnerView = new SimulationRunnerView(
                 staticSimulation.SimulationRunner,
-                _panel,
+                Panel,
                 prefabs);
             _spawnAreaView = new SpawnAreaView(
                 staticSimulation.SpawnArea,
                 staticSimulation.SpawnAreaStorage,
-                _panel,
+                Panel,
                 prefabs);
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
+            base.Dispose();
+
             _simulationRunnerView.Dispose();
             _spawnAreaView.Dispose();            
         }
