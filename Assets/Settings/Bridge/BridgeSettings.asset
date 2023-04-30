@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: BridgeSettings
   m_EditorClassIdentifier: 
   RosSettings: {fileID: 11400000, guid: 44a8d4940e5f446408175817a98aa13e, type: 2}
+  KafkaSettings: {fileID: 11400000, guid: e721a4c4cb82fb940aa1254b7fd8bf8d, type: 2}

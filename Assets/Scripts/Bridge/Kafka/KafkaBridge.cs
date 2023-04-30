@@ -41,10 +41,7 @@ namespace Assets.Scripts.Bridge.Kafka
 
         public ISubscriber<T> CreateSubscriber<T>(string topic)
         {
-            IConsumer<Ignore, string> consumer = new ConsumerBuilder<Ignore, string>(_consumerConfig).Build();
-            consumer.Subscribe(topic);
-
-            KafkaSubscriber<T> subscriber = new(_callbacks, consumer);
+            KafkaSubscriber<T> subscriber = new(_callbacks,  topic, _consumerConfig);
             subscriber.Disposed += Subscriber_Disposed;
             return subscriber;
         }

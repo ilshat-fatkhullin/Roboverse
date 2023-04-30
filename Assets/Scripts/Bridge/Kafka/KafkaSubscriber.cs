@@ -15,36 +15,61 @@ namespace Assets.Scripts.Bridge.Kafka
 
         public event EventHandler<IConsumer<Ignore, string>> Disposed;
 
-        private readonly IUnityCallbacks _callbacks;
+        public ConsumerConfig Config 
+        {
+            get => _config;
+            set
+            {
+                _config = value;
+                ApplyConfigurationChange();
+            }
+        }
 
-        private readonly IConsumer<Ignore, string> _consumer;
+        private readonly IUnityCallbacks _callbacks;
 
         private readonly CancellationTokenSource _cancellationTokenSource = new();
 
         private readonly ConcurrentQueue<T> _queue = new();
 
+        private IConsumer<Ignore, string> _consumer;
+
+        private ConsumerConfig _config;
+
         public KafkaSubscriber(
             IUnityCallbacks callbacks,
-            IConsumer<Ignore, string> consumer) 
+            string topic,
+            ConsumerConfig config)
         {
             _callbacks = callbacks;
-            _consumer = consumer;
+            _callbacks.FixedUpdateOccured += FixedUpdateOccured;
 
-            Topic = consumer.Name;
+            Topic = topic;
+            Config = config;
+        }
+
+        public void Dispose()
+        {
+            _cancellationTokenSource.Cancel();
+            Disposed?.Invoke(this, _consumer);
+        }
+
+        private void ApplyConfigurationChange()
+        {
+            _cancellationTokenSource.Cancel();
+            _consumer = new ConsumerBuilder<Ignore, string>(_config).Build();
+            _consumer.Subscribe(Topic);
 
             Task.Run(() =>
             {
                 while (true)
                 {
-                    ConsumeResult<Ignore, string> consumeResult = consumer.Consume(_cancellationTokenSource.Token);
+                    ConsumeResult<Ignore, string> consumeResult = _consumer.Consume(_cancellationTokenSource.Token);
                     string message = consumeResult.Message.Value;
 
                     _queue.Enqueue(JsonSerializer.Deserialize<T>(message));
                 }
-            }, 
+            },
             _cancellationTokenSource.Token);
-
-            _callbacks.FixedUpdateOccured += FixedUpdateOccured;
         }
 
         private void FixedUpdateOccured(object sender, EventArgs e)
@@ -58,12 +83,6 @@ namespace Assets.Scripts.Bridge.Kafka
 
                 MessageArrived?.Invoke(this, message);
             }
-        }
-
-        public void Dispose()
-        {
-            _cancellationTokenSource.Cancel();
-            Disposed?.Invoke(this, _consumer);
         }
     }
 }

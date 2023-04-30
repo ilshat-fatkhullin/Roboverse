@@ -8,6 +8,8 @@ namespace Assets.Scripts.Bridge.Ros
     {
         public ISettings Settings { get; }
 
+        public string Name => "ROS";
+
         private readonly ROSConnection _connection;
 
         public RosBridge(RosSettings settings)
@@ -15,11 +17,13 @@ namespace Assets.Scripts.Bridge.Ros
             Settings = settings;
 
             _connection = ROSConnection.GetOrCreateInstance();
+
             _connection.RosIPAddress = settings.IpAddress;
             _connection.RosPort = settings.Port;
-        }
 
-        public string Name => "ROS";
+            settings.IpAddressChanged += Settings_IpAddressChanged;
+            settings.PortChanged += Settings_PortChanged;
+        }
 
         public IPublisher<T> CreatePublisher<T>(string topic) where T : Message
         {
@@ -34,6 +38,16 @@ namespace Assets.Scripts.Bridge.Ros
         public void Dispose()
         {
             _connection.Disconnect();
+        }
+
+        private void Settings_IpAddressChanged(object sender, string ipAddress)
+        {
+            _connection.RosIPAddress = ipAddress;
+        }
+
+        private void Settings_PortChanged(object sender, int port)
+        {
+            _connection.RosPort = port;
         }
     }
 }
