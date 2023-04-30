@@ -1,6 +1,5 @@
 ﻿using Assets.Scripts.Agent;
 using Assets.Scripts.Bridge;
-using Assets.Scripts.StaticSimulation;
 using UnityEngine;
 
 namespace Assets.Scripts.Installers
@@ -11,7 +10,5 @@ namespace Assets.Scripts.Installers
         public AgentSettings AgentSettings;
 
         public BridgeSettings BridgeSettings;
-
-        public StaticSimulationSettings StaticSimulationSettings;
     }
 }

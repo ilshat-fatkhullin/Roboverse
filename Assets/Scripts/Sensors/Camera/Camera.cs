@@ -5,17 +5,11 @@ using RosMessageTypes.Sensor;
 
 namespace Assets.Scripts.Sensors.Camera
 {
-    public sealed class Camera : ISensor
+    public sealed class Camera : ICamera
     {
         public string Topic => _view.Topic;
 
         public ISensetiveArea SensetiveArea { get; }
-
-        public bool IsGeneratingDataset
-        {
-            get => _view.IsGeneratingDataset;
-            set => _view.IsGeneratingDataset = value;
-        }
 
         public int Width => _view.Width;
 
@@ -44,25 +38,17 @@ namespace Assets.Scripts.Sensors.Camera
             _renderer = new ImageRenderer(_view.Width, _view.Height, _view.Camera);
             _messageBuilder = new ImageMessageBuilder(view.Camera);
             _dataset = new ImageDataset(view.Topic);
-
-            SensetiveArea = new CameraSensetiveArea(this);
         }
 
         public void Dispose()
         {
-            _renderer.Dispose();
-            UnityEngine.Object.Destroy(_view.GameObject);            
+            _renderer.Dispose();        
         }
 
         public void Send(uint seq)
         {
             byte[] data = _renderer.RenderIntoBytes();
             _publisher.Publish(() => _messageBuilder.Build(seq, data));
-
-            if (IsGeneratingDataset)
-            {
-                _dataset.AddImage(seq, data);
-            }
         }
     }
 }

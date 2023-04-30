@@ -4,11 +4,7 @@ namespace Assets.Scripts.Sensors
 {
     public interface ISensor : IDisposable
     {
-        public string Topic { get; }
-
-        public ISensetiveArea SensetiveArea { get; }
-
-        public bool IsGeneratingDataset { get; set; }        
+        public string Topic { get; }    
 
         public void Send(uint seq);
     }

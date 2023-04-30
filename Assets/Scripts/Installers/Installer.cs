@@ -1,7 +1,6 @@
 using Assets.Scripts.Agent;
 using Assets.Scripts.Bridge.Kafka;
 using Assets.Scripts.Bridge.Ros;
-using Assets.Scripts.StaticSimulation;
 using Assets.Scripts.UI;
 using Assets.Scripts.UI.Views;
 using Microsoft.Extensions.DependencyInjection;
@@ -47,16 +46,12 @@ namespace Assets.Scripts.Installers
             collection.AddSingleton(_settings.BridgeSettings.RosSettings);
             collection.AddSingleton(_settings.BridgeSettings.KafkaSettings);
             collection.AddSingleton<IAgent, Agent.Agent>();
-            collection.AddSingleton(_settings.StaticSimulationSettings);
-            collection.AddSingleton<IStaticSimulation, StaticSimulation.StaticSimulation>();
-            collection.AddSingleton<StaticSimulationView>();
             collection.AddSingleton<IRosBridge, RosBridge>();
             collection.AddSingleton<IKafkaBridge, KafkaBridge>();
             collection.AddSingleton<BridgesView>();
 
             _provider = collection.BuildServiceProvider();
             _provider.GetService<IAgent>();
-            _provider.GetService<StaticSimulationView>();
             _provider.GetService<BridgesView>();
         }
 

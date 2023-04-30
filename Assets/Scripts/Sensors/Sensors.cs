@@ -45,13 +45,5 @@ namespace Assets.Scripts.Sensors
 
             _seq++;
         }
-
-        public void SetDatasetGeneration(bool isActive)
-        {
-            foreach (ISensor sensor in SensorList)
-            {
-                sensor.IsGeneratingDataset = isActive;
-            }
-        }
     }
 }
