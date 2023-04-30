@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Sensors;
+using UnityEngine;
 
 namespace Assets.Scripts.Agent
 {
@@ -8,6 +9,6 @@ namespace Assets.Scripts.Agent
 
         public Quaternion Rotation { get; set; }
 
-        public Sensors.Sensors Sensors { get; }
+        public ISensors Sensors { get; }
     }
 }

@@ -1,5 +1,5 @@
-﻿using Assets.Scripts.Bridge;
-using Assets.Scripts.Bridge.Ros;
+﻿using Assets.Scripts.Bridge.Ros;
+using Assets.Scripts.Sensors;
 using System;
 using UnityEngine;
 
@@ -19,7 +19,7 @@ namespace Assets.Scripts.Agent
             set => _view.GameObject.transform.rotation = value;
         }
 
-        public Sensors.Sensors Sensors { get; }
+        public ISensors Sensors { get; }
 
         private readonly IAgentView _view;
 

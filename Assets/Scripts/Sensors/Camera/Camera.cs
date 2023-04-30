@@ -1,6 +1,5 @@
 ﻿using Assets.Scripts.Bridge;
 using Assets.Scripts.Bridge.Ros;
-using Assets.Scripts.Sensors.DatasetGeneration;
 using RosMessageTypes.Sensor;
 
 namespace Assets.Scripts.Sensors.Camera
@@ -8,8 +7,6 @@ namespace Assets.Scripts.Sensors.Camera
     public sealed class Camera : ICamera
     {
         public string Topic => _view.Topic;
-
-        public ISensetiveArea SensetiveArea { get; }
 
         public int Width => _view.Width;
 
@@ -27,8 +24,6 @@ namespace Assets.Scripts.Sensors.Camera
 
         private readonly ImageMessageBuilder _messageBuilder;
 
-        private readonly ImageDataset _dataset;
-
         public Camera(
             ICameraView view,
             IRosBridge bridge)
@@ -37,7 +32,6 @@ namespace Assets.Scripts.Sensors.Camera
             _publisher = bridge.CreatePublisher<ImageMsg>(Topic);
             _renderer = new ImageRenderer(_view.Width, _view.Height, _view.Camera);
             _messageBuilder = new ImageMessageBuilder(view.Camera);
-            _dataset = new ImageDataset(view.Topic);
         }
 
         public void Dispose()

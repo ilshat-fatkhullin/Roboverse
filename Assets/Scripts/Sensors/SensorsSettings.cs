@@ -5,10 +5,16 @@ using UnityEngine;
 namespace Assets.Scripts.Sensors
 {
     [CreateAssetMenu(fileName = "SensorsSettings", menuName = "Settings/Sensors", order = 1)]
-    public sealed class SensorsSettings : ScriptableObject
+    public sealed class SensorsSettings : ScriptableObject, ISensorsSettings
     {
-        public CameraSettings CameraSettings;
+        public ICameraSettings CameraSettings => _cameraSettings;
 
-        public LidarSettings LidarSettings;
+        public ILidarSettings LidarSettings => _lidarSettings;
+
+        [SerializeField]
+        private CameraSettings _cameraSettings;
+
+        [SerializeField]
+        private LidarSettings _lidarSettings;
     }
 }
