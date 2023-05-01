@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Settings;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -63,11 +62,26 @@ namespace Assets.Scripts.UI
             Destroy(gameObject);
         }
 
-        public IRoboverseField<string> AddField(IUserInterfacePrefabs prefabs, FieldInfo<string> info) => CreateField(prefabs.StringField, info);
+        public IRoboverseField<string> AddField(
+            IUserInterfacePrefabs prefabs, 
+            string name, 
+            Func<string> get,
+            Action<string> set)
+            => CreateField(prefabs.StringField, name, get, set);
 
-        public IRoboverseField<int> AddField(IUserInterfacePrefabs prefabs, FieldInfo<int> info) => CreateField(prefabs.IntField, info);
+        public IRoboverseField<int> AddField(
+            IUserInterfacePrefabs prefabs, 
+            string name, 
+            Func<int> get, 
+            Action<int> set) => 
+            CreateField(prefabs.IntField, name, get, set);
 
-        public IRoboverseField<float> AddField(IUserInterfacePrefabs prefabs, FieldInfo<float> info) => CreateField(prefabs.FloatField, info);
+        public IRoboverseField<float> AddField(
+            IUserInterfacePrefabs prefabs, 
+            string name, 
+            Func<float> get, 
+            Action<float> set) => 
+            CreateField(prefabs.FloatField, name, get, set);
 
         public IRoboverseButton AddButton(IUserInterfacePrefabs prefabs, string title)
         {
@@ -81,14 +95,18 @@ namespace Assets.Scripts.UI
             return button;
         }
 
-        private IRoboverseField<T> CreateField<T>(GameObject prefab, FieldInfo<T> info)
+        private IRoboverseField<T> CreateField<T>(
+            GameObject prefab, 
+            string name,
+            Func<T> get,
+            Action<T> set)
         {
             GameObject fieldObject = Instantiate(prefab, _fieldsContainer);
             IRoboverseField<T> field = fieldObject.GetComponent<IRoboverseField<T>>();
 
-            field.Title = info.Name;
-            field.Value = info.Get();
-            field.ValueChanged += (_, value) => info.Set(value);
+            field.Title = name;
+            field.Value = get();
+            field.ValueChanged += (_, value) => set(value);            
 
             return field;
         }

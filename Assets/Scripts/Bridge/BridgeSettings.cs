@@ -5,10 +5,16 @@ using UnityEngine;
 namespace Assets.Scripts.Bridge
 {
     [CreateAssetMenu(fileName = "BridgeSettings", menuName = "Settings/Bridge", order = 1)]
-    public sealed class BridgeSettings : ScriptableObject
+    public sealed class BridgeSettings : ScriptableObject, IBridgeSettings
     {
-        public RosSettings RosSettings;
+        public IRosSettings RosSettings => _rosSettings;
 
-        public KafkaSettings KafkaSettings;
+        public IKafkaSettings KafkaSettings => _kafkaSettings;
+
+        [SerializeField]
+        private RosSettings _rosSettings;
+
+        [SerializeField]
+        private KafkaSettings _kafkaSettings;
     }
 }

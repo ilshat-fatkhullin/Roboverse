@@ -1,11 +1,10 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Experimental.Rendering;
 using UnityEngine.VFX;
 
 namespace Assets.Scripts.Sensors.Lidar
 {
-    public sealed class PointCloudRenderer : IDisposable
+    public sealed class PointCloudRenderer : IPointCloudRenderer
     {
         public GraphicsBuffer PointCloudBuffer => _raysToPointCloudConverter.PointCloudBuffer;
 

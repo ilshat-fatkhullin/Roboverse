@@ -36,7 +36,7 @@ namespace Assets.Scripts.Sensors.Camera
 
         public void Dispose()
         {
-            _renderer.Dispose();        
+            _renderer.Dispose();
         }
 
         public void Send(uint seq)

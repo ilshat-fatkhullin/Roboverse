@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Settings;
-using Confluent.Kafka;
+﻿using Confluent.Kafka;
 
 namespace Assets.Scripts.Bridge.Kafka
 {
@@ -7,7 +6,7 @@ namespace Assets.Scripts.Bridge.Kafka
     {
         public string Name => "Kafka";
 
-        public ISettings Settings { get; }
+        public IKafkaSettings Settings { get; }
 
         private readonly IUnityCallbacks _callbacks;
 
@@ -16,7 +15,7 @@ namespace Assets.Scripts.Bridge.Kafka
         private readonly IProducer<Null, string> _producer;
 
         public KafkaBridge(
-            KafkaSettings settings,
+            IKafkaSettings settings,
             IUnityCallbacks callbacks)
         {
             Settings = settings;

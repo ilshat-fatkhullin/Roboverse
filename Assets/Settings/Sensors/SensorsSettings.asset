@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 949063b78cfdf614e93caa77269f04d0, type: 3}
   m_Name: SensorsSettings
   m_EditorClassIdentifier: 
-  CameraSettings: {fileID: 11400000, guid: 0ac2f06a921e90b43bcc82deb24c57fc, type: 2}
-  LidarSettings: {fileID: 11400000, guid: 6d858374363247c4693a32987d86d96d, type: 2}
+  _cameraSettings: {fileID: 11400000, guid: 0ac2f06a921e90b43bcc82deb24c57fc, type: 2}
+  _lidarSettings: {fileID: 11400000, guid: 6d858374363247c4693a32987d86d96d, type: 2}

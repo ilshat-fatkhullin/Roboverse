@@ -1,23 +1,13 @@
-﻿using Assets.Scripts.Bridge.Ros;
+﻿using Assets.Scripts.Bindings;
+using Assets.Scripts.Common;
 using Assets.Scripts.Sensors;
 using System;
-using UnityEngine;
 
 namespace Assets.Scripts.Agent
 {
     public sealed class Agent : IAgent, IDisposable
     {
-        public Vector3 Position
-        {
-            get => _view.GameObject.transform.position;
-            set => _view.GameObject.transform.position = value;
-        }
-
-        public Quaternion Rotation
-        {
-            get => _view.GameObject.transform.rotation;
-            set => _view.GameObject.transform.rotation = value;
-        }
+        public ITransform Transform => _view.GameObject.Transform;
 
         public ISensors Sensors { get; }
 
@@ -25,11 +15,14 @@ namespace Assets.Scripts.Agent
 
         public Agent(
             IAgentView view,
-            AgentSettings settings,
-            IRosBridge bridge)
+            IAgentSettings settings,
+            ISensorsBuilder sensorsBuilder)
         {
-            _view = view;
-            Sensors = new Sensors.Sensors(view.SensorsView, bridge, settings.SensorsSettings);
+            _view = Throws.IfNull(view, nameof(view));
+            Throws.IfNull(settings, nameof(settings));
+            Throws.IfNull(sensorsBuilder, nameof(sensorsBuilder));
+
+            Sensors = sensorsBuilder.Build(view.SensorsView, settings.SensorsSettings);
         }
 
         public void Dispose()

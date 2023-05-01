@@ -9,7 +9,7 @@ namespace Assets.Scripts.UI
         public T Value
         {
             get => ParseValue(_field.text);
-            set => _field.text = value.ToString();
+            set => _field.SetTextWithoutNotify(value.ToString());
         }
 
         public string Title 

@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Settings;
-using System;
+﻿using System;
 
 namespace Assets.Scripts.UI
 {
@@ -11,11 +10,23 @@ namespace Assets.Scripts.UI
 
         public IRoboversePanel AddPanel(IUserInterfacePrefabs prefabs, string title);
 
-        public IRoboverseField<string> AddField(IUserInterfacePrefabs prefabs, FieldInfo<string> info);
+        public IRoboverseField<string> AddField(
+            IUserInterfacePrefabs prefabs, 
+            string name, 
+            Func<string> get, 
+            Action<string> set);
 
-        public IRoboverseField<int> AddField(IUserInterfacePrefabs prefabs, FieldInfo<int> info);
+        public IRoboverseField<int> AddField(
+            IUserInterfacePrefabs prefabs, 
+            string name, 
+            Func<int> get, 
+            Action<int> set);
 
-        public IRoboverseField<float> AddField(IUserInterfacePrefabs prefabs, FieldInfo<float> info);
+        public IRoboverseField<float> AddField(
+            IUserInterfacePrefabs prefabs, 
+            string name, 
+            Func<float> get, 
+            Action<float> set);
 
         public IRoboverseButton AddButton(IUserInterfacePrefabs prefabs, string title);
     }

@@ -1,23 +1,25 @@
-﻿using Assets.Scripts.Settings;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 namespace Assets.Scripts.Bridge.Kafka
 {
     [Serializable]
     [CreateAssetMenu(fileName = "KafkaSettings", menuName = "Settings/Bridge/Kafka", order = 1)]
-    public sealed class KafkaSettings : ScriptableObject, ISettings
+    public sealed class KafkaSettings : ScriptableObject, IKafkaSettings
     {
-        public string BootstrapServers;
+        public string BootstrapServers 
+        { 
+            get => _bootstrapServers; 
+            set
+            {
+                _bootstrapServers = value;
+                BootstrapServersChanged?.Invoke(this, value);
+            }
+        }
+        
+        public event EventHandler<string> BootstrapServersChanged;
 
-        public IReadOnlyCollection<FieldInfo<float>> FloatFields => new List<FieldInfo<float>>();
-
-        public IReadOnlyCollection<FieldInfo<int>> IntFields => new List<FieldInfo<int>>();
-
-        public IReadOnlyCollection<FieldInfo<string>> StringFields => new List<FieldInfo<string>>()
-        {
-            new FieldInfo<string>("Bootstrap servers", () => BootstrapServers, (value) => BootstrapServers = value)
-        };
+        [SerializeField]
+        private string _bootstrapServers;
     }
 }

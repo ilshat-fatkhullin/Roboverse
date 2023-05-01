@@ -1,13 +1,11 @@
-﻿using Assets.Scripts.Sensors;
-using UnityEngine;
+﻿using Assets.Scripts.Bindings;
+using Assets.Scripts.Sensors;
 
 namespace Assets.Scripts.Agent
 {
     public interface IAgent
     {
-        public Vector3 Position { get; set; }
-
-        public Quaternion Rotation { get; set; }
+        public ITransform Transform { get; }
 
         public ISensors Sensors { get; }
     }

@@ -1,13 +1,11 @@
-﻿using Assets.Scripts.Settings;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 namespace Assets.Scripts.Bridge.Ros
 {
     [Serializable]
     [CreateAssetMenu(fileName = "RosSettings", menuName = "Settings/Bridge/Ros", order = 1)]
-    public sealed class RosSettings : ScriptableObject, ISettings
+    public sealed class RosSettings : ScriptableObject, IRosSettings
     {
         public string IpAddress
         {
@@ -38,17 +36,5 @@ namespace Assets.Scripts.Bridge.Ros
 
         [SerializeField]
         private int _port;
-
-        public IReadOnlyCollection<FieldInfo<float>> FloatFields => new List<FieldInfo<float>>();
-
-        public IReadOnlyCollection<FieldInfo<int>> IntFields => new List<FieldInfo<int>>()
-        {
-            new FieldInfo<int>("Port", () => Port, (value) => Port = value)
-        };
-
-        public IReadOnlyCollection<FieldInfo<string>> StringFields => new List<FieldInfo<string>>()
-        {
-            new FieldInfo<string>("IP address", () => IpAddress, (value) => IpAddress = value)
-        };
     }
 }

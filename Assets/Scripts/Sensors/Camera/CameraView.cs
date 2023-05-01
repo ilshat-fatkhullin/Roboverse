@@ -1,3 +1,4 @@
+using Assets.Scripts.Bindings;
 using UnityEngine;
 
 namespace Assets.Scripts.Sensors.Camera
@@ -6,7 +7,7 @@ namespace Assets.Scripts.Sensors.Camera
     {
         public string Topic => _topic;
 
-        public GameObject GameObject => gameObject;
+        public IGameObject GameObject => new GameObjectBinding(gameObject);
 
         public UnityEngine.Camera Camera => _camera;
 

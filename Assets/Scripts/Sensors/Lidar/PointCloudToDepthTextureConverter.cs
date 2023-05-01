@@ -1,9 +1,8 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Assets.Scripts.Sensors.Lidar
 {
-    public sealed class PointCloudToDepthTextureConverter : IDisposable
+    public sealed class PointCloudToDepthTextureConverter : IPointCloudToDepthTextureConverter
     {
         private readonly ComputeShader _shader;
 

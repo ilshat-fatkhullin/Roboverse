@@ -1,3 +1,4 @@
+using Assets.Scripts.Bindings;
 using Assets.Scripts.Sensors.Camera;
 using Assets.Scripts.Sensors.Lidar;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ namespace Assets.Scripts.Sensors
 {
     public class SensorsView : MonoBehaviour, ISensorsView
     {
-        public GameObject GameObject => gameObject;
+        public IGameObject GameObject => new GameObjectBinding(gameObject);
 
         public IEnumerable<ICameraView> CameraViews => _cameraViews;
 

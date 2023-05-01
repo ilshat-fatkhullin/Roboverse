@@ -1,6 +1,9 @@
 using Assets.Scripts.Agent;
 using Assets.Scripts.Bridge.Kafka;
 using Assets.Scripts.Bridge.Ros;
+using Assets.Scripts.Sensors;
+using Assets.Scripts.Sensors.Camera;
+using Assets.Scripts.Sensors.Lidar;
 using Assets.Scripts.UI;
 using Assets.Scripts.UI.Views;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,7 +19,7 @@ namespace Assets.Scripts.Installers
         public event EventHandler UpdateOccured;
 
         [SerializeField]
-        private AgentView _agentView;
+        private Agent.AgentView _agentView;
 
         [SerializeField]
         private InstallerSettings _settings;
@@ -42,13 +45,24 @@ namespace Assets.Scripts.Installers
             collection.AddSingleton<IRoboversePanel>(_roboversePanel);
             collection.AddSingleton<IAgentView>(_agentView);
             collection.AddSingleton<IRoboversePanel>(_roboversePanel);
-            collection.AddSingleton(_settings.AgentSettings);
+            collection.AddSingleton<IAgentSettings>(_settings.AgentSettings);
             collection.AddSingleton(_settings.BridgeSettings.RosSettings);
             collection.AddSingleton(_settings.BridgeSettings.KafkaSettings);
+
+            // Agent
             collection.AddSingleton<IAgent, Agent.Agent>();
+
+            // Bridge
             collection.AddSingleton<IRosBridge, RosBridge>();
             collection.AddSingleton<IKafkaBridge, KafkaBridge>();
             collection.AddSingleton<BridgesView>();
+
+            // Sensors
+            collection.AddSingleton<ISensorsBuilder, SensorsBuilder>();
+            collection.AddSingleton<ICameraBuilder, CameraBuilder>();
+            collection.AddSingleton<ILidarBuilder, LidarBuilder>();
+            collection.AddSingleton<IPointCloudRendererBuilder, PointCloudRendererBuilder>();
+            collection.AddSingleton<IPointCloudToDepthTextureConverterBuilder, PointCloudToDepthTextureConverterBuilder>();
 
             _provider = collection.BuildServiceProvider();
             _provider.GetService<IAgent>();

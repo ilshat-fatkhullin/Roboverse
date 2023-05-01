@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f6af67024a79334aa06fc7560dfa4e5, type: 3}
   m_Name: AgentSettings
   m_EditorClassIdentifier: 
-  SensorsSettings: {fileID: 11400000, guid: 817f7f2caa90e4549b48cb8b49e6c827, type: 2}
+  _sensorsSettings: {fileID: 11400000, guid: 817f7f2caa90e4549b48cb8b49e6c827, type: 2}

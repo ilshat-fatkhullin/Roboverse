@@ -7,9 +7,9 @@ namespace Assets.Scripts.UI.Views
 {
     public sealed class BridgesView : View, IDisposable
     {
-        private readonly BridgeView _rosBridgeView;
+        private readonly RosBridgeView _rosBridgeView;
 
-        private readonly BridgeView _kafkaBridgeView;
+        private readonly KafkaBridgeView _kafkaBridgeView;
 
         public BridgesView(
             IRosBridge rosBridge,
@@ -17,8 +17,8 @@ namespace Assets.Scripts.UI.Views
             IRoboversePanel parent,
             IUserInterfacePrefabs prefabs) : base(parent, prefabs, "Bridges")
         {
-            _rosBridgeView = new BridgeView(rosBridge, Panel, prefabs);
-            _kafkaBridgeView = new BridgeView(kafkaBridge, Panel, prefabs);
+            _rosBridgeView = new RosBridgeView(rosBridge, Panel, prefabs);
+            _kafkaBridgeView = new KafkaBridgeView(kafkaBridge, Panel, prefabs);
         }
 
         public override void Dispose()

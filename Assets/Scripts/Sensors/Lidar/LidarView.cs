@@ -1,3 +1,4 @@
+using Assets.Scripts.Bindings;
 using UnityEngine;
 using UnityEngine.VFX;
 
@@ -5,7 +6,7 @@ namespace Assets.Scripts.Sensors.Lidar
 {
     public class LidarView : MonoBehaviour, ILidarView
     {
-        public GameObject GameObject => gameObject;
+        public IGameObject GameObject => new GameObjectBinding(gameObject);
 
         public string Topic => _topic;
 

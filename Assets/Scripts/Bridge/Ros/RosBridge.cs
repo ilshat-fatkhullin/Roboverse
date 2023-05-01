@@ -1,18 +1,17 @@
-﻿using Assets.Scripts.Settings;
-using Unity.Robotics.ROSTCPConnector;
+﻿using Unity.Robotics.ROSTCPConnector;
 using Unity.Robotics.ROSTCPConnector.MessageGeneration;
 
 namespace Assets.Scripts.Bridge.Ros
 {
     public class RosBridge : IRosBridge
     {
-        public ISettings Settings { get; }
+        public IRosSettings Settings { get; }
 
         public string Name => "ROS";
 
         private readonly ROSConnection _connection;
 
-        public RosBridge(RosSettings settings)
+        public RosBridge(IRosSettings settings)
         {
             Settings = settings;
 

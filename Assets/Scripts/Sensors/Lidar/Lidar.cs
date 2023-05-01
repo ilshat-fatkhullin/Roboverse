@@ -11,48 +11,38 @@ namespace Assets.Scripts.Sensors.Lidar
 
         private readonly ILidarView _view;
 
-        private readonly PointCloudRenderer _renderer;
+        private readonly IPointCloudRenderer _pointCloudRenderer;
 
         private readonly IPublisher<PointCloudMsg> _publisher;
 
-        private readonly PointCloudToDepthTextureConverter _pointCloudToDepthTextureConverter;
+        private readonly IPointCloudToDepthTextureConverter _pointCloudToDepthTextureConverter;
 
         public Lidar(
             ILidarView view,
             IRosBridge bridge,
-            ILidarSettings settings)
+            ILidarSettings settings,
+            IPointCloudRendererBuilder pointCloudRendererBuilder,
+            IPointCloudToDepthTextureConverterBuilder pointCloudToDepthTextureConverter)
         {
             _view = view;
             _view.Camera.aspect = 1;
 
-            _renderer = new(
-                view.Camera,
-                view.Measurements,
-                view.RaysCount,
-                view.VerticalAngle,
-                settings.RaysToPointCloudConverterShader,
-                view.VisualEffect);
-
-            _pointCloudToDepthTextureConverter = new(
-                view.Measurements,
-                view.RaysCount,
-                view.Camera.farClipPlane,
-                _renderer.PointCloudBuffer,
-                settings.PointCloudToDepthTextureConverterShader);
+            _pointCloudRenderer = pointCloudRendererBuilder.Build(view, settings);
+            _pointCloudToDepthTextureConverter = pointCloudToDepthTextureConverter.Build(view, _pointCloudRenderer, settings);
 
             _publisher = bridge.CreatePublisher<PointCloudMsg>(Topic);
         }
 
         public void Send(uint seq)
         {
-            (Vector4[] pointCloud, GraphicsBuffer pointCloudBuffer) = _renderer.Render();
+            (Vector4[] pointCloud, GraphicsBuffer pointCloudBuffer) = _pointCloudRenderer.Render();
             PointCloudMsg message = PointCloudMessageBuilder.Build(seq, pointCloud);
             _publisher.Publish(() => message);
         }
 
         public void Dispose()
         {
-            _renderer.Dispose();
+            _pointCloudRenderer.Dispose();
             _pointCloudToDepthTextureConverter.Dispose();
         }
     }

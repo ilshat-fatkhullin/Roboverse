@@ -1,3 +1,16 @@
 {
-	"name": "Roboverse"
+    "name": "Roboverse",
+    "rootNamespace": "",
+    "references": [
+        "GUID:c384e7d33303d1542a4a342a5f4c5f3f"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

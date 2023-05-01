@@ -6,8 +6,11 @@ namespace Assets.Scripts.Agent
 {
     [Serializable]
     [CreateAssetMenu(fileName = "AgentSettings", menuName = "Settings/Agent", order = 1)]
-    public sealed class AgentSettings : ScriptableObject
+    public sealed class AgentSettings : ScriptableObject, IAgentSettings
     {
-        public SensorsSettings SensorsSettings;
+        public ISensorsSettings SensorsSettings => _sensorsSettings;
+
+        [SerializeField]
+        private SensorsSettings _sensorsSettings;
     }
 }

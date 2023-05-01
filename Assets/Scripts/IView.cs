@@ -1,9 +1,9 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Bindings;
 
 namespace Assets.Scripts
 {
     public interface IView
     {
-        public GameObject GameObject { get; }
+        public IGameObject GameObject { get; }
     }
 }

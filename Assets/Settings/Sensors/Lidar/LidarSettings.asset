@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4e775e52d6004b41a8637ddad163a3d, type: 3}
   m_Name: LidarSettings
   m_EditorClassIdentifier: 
-  RaysToPointCloudConverterShader: {fileID: 4807578003741378534, guid: 6abb46f2bed3e134ebd13a2d48a3fe1c,
+  _raysToPointCloudConverterShader: {fileID: 4807578003741378534, guid: 6abb46f2bed3e134ebd13a2d48a3fe1c,
     type: 3}
-  PointCloudToDepthTextureConverterShader: {fileID: 7200000, guid: 250856d5667e1cc4e8c7194b9ed47be6,
+  _pointCloudToDepthTextureConverterShader: {fileID: 7200000, guid: 250856d5667e1cc4e8c7194b9ed47be6,
     type: 3}

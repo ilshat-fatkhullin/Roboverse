@@ -2,7 +2,7 @@
 
 namespace Assets.Scripts.Sensors.GroundTruth2D
 {
-    internal class GroundTruth2D : ISensor
+    public class GroundTruth2D : ISensor
     {
         public string Topic => throw new NotImplementedException();
 
